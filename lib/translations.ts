@@ -48,15 +48,35 @@ const fr = {
     hotel: "Hôtel 5★ boutique — 13 chambres",
     location: "Méditerranée",
     stats: [
-      { value: 13, prefix: "", suffix: "", label: "chambres" },
-      { value: 100, prefix: "", suffix: " %", label: "multilingue" },
+      { value: 13, prefix: "", suffix: "", label: "chambres", countdown: false },
+      {
+        value: 30,
+        prefix: "< ",
+        suffix: " s",
+        label: "pour répondre",
+        countdown: true,
+      },
+      {
+        value: 100,
+        prefix: "",
+        suffix: " %",
+        label: "multilingue",
+        countdown: false,
+      },
       {
         value: 2,
         prefix: "~",
         suffix: "h/jour",
         label: "économisées à la réception",
+        countdown: false,
       },
     ],
+    testimonial: {
+      quote:
+        "L'agent a transformé notre réception. Nos clients reçoivent une réponse en moins d'une minute, même à 3h du matin.",
+      author: "— Directeur d'un hôtel boutique 5★",
+      disclaimer: "Témoignage représentatif basé sur les performances mesurées",
+    },
   },
   about: {
     name: "Enzo Cosnard",
@@ -185,15 +205,35 @@ const en: Translation = {
     hotel: "5★ boutique hotel — 13 rooms",
     location: "Mediterranean",
     stats: [
-      { value: 13, prefix: "", suffix: "", label: "rooms" },
-      { value: 100, prefix: "", suffix: "%", label: "multilingual" },
+      { value: 13, prefix: "", suffix: "", label: "rooms", countdown: false },
+      {
+        value: 30,
+        prefix: "< ",
+        suffix: "s",
+        label: "to reply",
+        countdown: true,
+      },
+      {
+        value: 100,
+        prefix: "",
+        suffix: "%",
+        label: "multilingual",
+        countdown: false,
+      },
       {
         value: 2,
         prefix: "~",
         suffix: "h/day",
         label: "saved at the front desk",
+        countdown: false,
       },
     ],
+    testimonial: {
+      quote:
+        "The agent transformed our front desk. Our guests receive a reply in under a minute, even at 3 a.m.",
+      author: "— Director of a 5★ boutique hotel",
+      disclaimer: "Representative testimonial based on measured performance",
+    },
   },
   about: {
     name: "Enzo Cosnard",
