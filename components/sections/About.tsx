@@ -8,7 +8,10 @@ import type { Translation } from "@/lib/translations";
 export default function About({ t }: { t: Translation }) {
   const links = [
     { label: t.about.links.github, href: "https://github.com/Nygty" },
-    { label: t.about.links.linkedin, href: "#" }, // TODO: ajouter l'URL LinkedIn
+    {
+      label: t.about.links.linkedin,
+      href: "https://www.linkedin.com/in/enzo-cosnard-86b618377/",
+    },
     { label: t.about.links.email, href: "mailto:enzo26cosnard@gmail.com" },
   ];
 
