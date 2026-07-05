@@ -4,7 +4,10 @@ import type { Translation } from "@/lib/translations";
 
 export default function HowItWorks({ t }: { t: Translation }) {
   return (
-    <section id="comment" className="relative min-h-screen px-6 md:min-h-[200vh]">
+    // 450vh desktop : cette section est la piste de scroll de la simulation
+    // "dans l'écran" (V3B) — son texte HTML est recouvert par la démo,
+    // qui raconte la même chose en action
+    <section id="comment" className="relative min-h-screen px-6 md:min-h-[450vh]">
       <div className="mx-auto flex min-h-screen max-w-6xl flex-col justify-center py-20">
         <Reveal>
           <h2 className="text-center font-heading text-4xl font-bold tracking-tight sm:text-5xl">

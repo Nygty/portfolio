@@ -1,5 +1,6 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { cinematicLength } from "./use-scroll-state";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,12 +21,10 @@ export const sceneState = {
   sway: 1,
   // la façade s'efface quand la caméra la traverse
   facadeOpacity: 1,
-  // 0 → 1 : zoom final dans l'écran + bascule HTML (étape 3)
-  screenZoom: 0,
 };
 
-// Timeline maître. Durées en % du scroll total de la page (0 → 100),
-// calées sur les phases de la mission V3B.
+// Timeline maître. Durées en % de la CINÉMATIQUE (0 → 100), qui couvre
+// les 3 premières sections — même référentiel que lib/use-scroll-state.ts.
 export function buildScrollTimeline(): gsap.core.Timeline | null {
   if (typeof window === "undefined") return null;
 
@@ -34,8 +33,9 @@ export function buildScrollTimeline(): gsap.core.Timeline | null {
     scrollTrigger: {
       trigger: document.body,
       start: "top top",
-      end: "bottom bottom",
+      end: () => `+=${cinematicLength()}`,
       scrub: 1.2,
+      invalidateOnRefresh: true,
     },
   });
 
@@ -75,10 +75,28 @@ export function buildScrollTimeline(): gsap.core.Timeline | null {
   // La façade s'efface pendant la traversée de la porte
   tl.to(sceneState, { facadeOpacity: 0, duration: 5, ease: "power1.in" }, 18);
 
-  // 30 → 100% : la caméra reste posée dans le hall pour l'instant.
-  // Ce tween vide fixe la durée totale à 100 pour que les % restent justes
-  // quand les étapes 3+ ajouteront leurs keyframes.
-  tl.to({}, { duration: 70 }, 30);
+  // Phase 3 (30 → 45%) : zoom dans l'écran de l'ordinateur — la caméra
+  // s'aligne sur le centre de l'écran (monde : 0, -1.08, -4.6) et s'en
+  // approche jusqu'à ce qu'il remplisse le viewport. La couche HTML
+  // (OutlookScene) prend le relais en fondu à partir de ~38%.
+  tl.to(
+    sceneState,
+    {
+      camY: -1.08,
+      camZ: -4.2,
+      lookY: -1.08,
+      lookZ: -4.6,
+      fov: 36,
+      duration: 15,
+      ease: "power1.inOut",
+    },
+    30
+  );
+
+  // 45 → 100% : la caméra reste dans l'écran (la simulation HTML joue).
+  // Le dézoom (90-100%) arrive à l'étape 7. Ce tween vide fixe la durée
+  // totale à 100 pour que les % restent justes.
+  tl.to({}, { duration: 55 }, 45);
 
   return tl;
 }
