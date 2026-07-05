@@ -93,10 +93,40 @@ export function buildScrollTimeline(): gsap.core.Timeline | null {
     30
   );
 
-  // 45 → 100% : la caméra reste dans l'écran (la simulation HTML joue).
-  // Le dézoom (90-100%) arrive à l'étape 7. Ce tween vide fixe la durée
-  // totale à 100 pour que les % restent justes.
-  tl.to({}, { duration: 55 }, 45);
+  // 45 → 90% : la caméra reste dans l'écran (la simulation HTML joue)
+  tl.to({}, { duration: 45 }, 45);
+
+  // Phase 7 (90 → 100%) : dézoom — la caméra ressort de l'écran puis du
+  // hall, la façade se reconstitue, et l'hôtel s'éloigne dans le brouillard
+  // (la "scène apaisée" derrière les sections cas client / about / tarifs).
+  tl.to(
+    sceneState,
+    {
+      camY: -1.35,
+      camZ: 2.4,
+      lookY: -1.3,
+      lookZ: -2.5,
+      fov: 42,
+      duration: 5,
+      ease: "power1.in",
+    },
+    90
+  );
+  tl.to(sceneState, { facadeOpacity: 1, duration: 4 }, 93);
+  tl.to(
+    sceneState,
+    {
+      camY: -0.7,
+      camZ: 19,
+      lookY: -0.3,
+      lookZ: 0,
+      fov: 45,
+      sway: 0.3,
+      duration: 5,
+      ease: "power1.out",
+    },
+    95
+  );
 
   return tl;
 }

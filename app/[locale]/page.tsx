@@ -1,5 +1,6 @@
 import SceneLoader from "@/components/three/SceneLoader";
 import OutlookScene from "@/components/simulation/OutlookScene";
+import Caption from "@/components/ui/Caption";
 import Hero from "@/components/sections/Hero";
 import Agent from "@/components/sections/Agent";
 import HowItWorks from "@/components/sections/HowItWorks";
@@ -21,6 +22,7 @@ export default async function Home({
     <main className="relative">
       <SceneLoader />
       <OutlookScene />
+      <Caption locale={locale} />
       <Hero t={t} />
       <Agent t={t} />
       <HowItWorks t={t} />

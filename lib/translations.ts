@@ -119,6 +119,13 @@ const fr = {
   localeSwitcher: {
     ariaLabel: "Changer de langue",
   },
+  // Micro-légendes de la cinématique V3B
+  captions: {
+    agentAtPost: "L'agent est déjà à son poste",
+    emailArrives: "Un email arrive",
+    agentDrafts: "L'agent rédige une réponse",
+    sent: "Envoyé en 5 secondes",
+  },
   footer: "© 2026 Enzo Cosnard — Fait avec Next.js & Three.js",
 };
 
@@ -242,6 +249,12 @@ const en: Translation = {
   },
   localeSwitcher: {
     ariaLabel: "Switch language",
+  },
+  captions: {
+    agentAtPost: "The agent is already at its post",
+    emailArrives: "An email arrives",
+    agentDrafts: "The agent drafts a reply",
+    sent: "Sent in 5 seconds",
   },
   footer: "© 2026 Enzo Cosnard — Built with Next.js & Three.js",
 };
