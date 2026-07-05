@@ -1,10 +1,10 @@
 "use client";
 
-import Blob from "../three/Blob";
+import Brain from "../three/Brain";
 
-// Panneau latéral de l'agent (façon Copilot) : le blob organique réfléchit,
-// puis la réponse s'écrit en typewriter, avec le bouton Send en bas
-// (le curseur animé de l'étape 6 viendra le "cliquer").
+// Panneau latéral de l'agent (façon Copilot) : le cerveau neuronal
+// s'illumine pendant la réflexion, puis la réponse s'écrit en typewriter,
+// avec le bouton Send en bas (cliqué par le curseur autonome).
 // slideP : ouverture du panneau. thinkP : l'IA réfléchit. typeP : rédaction.
 
 const REPLY = `Dear Sarah,
@@ -55,9 +55,9 @@ export default function AIPanel({
           </span>
         </div>
 
-        {/* Le blob : agité pendant la réflexion, calme pendant la rédaction */}
+        {/* Le cerveau : impulsions rapides pendant la réflexion, calmes ensuite */}
         <div className="mx-auto mt-4 h-28 w-28">
-          <Blob intensity={thinking ? 0.9 : 0.3} />
+          <Brain intensity={thinking ? 0.9 : 0.3} />
         </div>
         <p className="mt-2 h-4 text-center text-xs text-[#8a93a5]">{status}</p>
 
