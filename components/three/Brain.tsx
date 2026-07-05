@@ -17,6 +17,7 @@ const LINK_DIST = 0.42;
 const DIM = new THREE.Color("#25476f");
 const BRIGHT = new THREE.Color("#bfe0ff");
 const VIOLET = new THREE.Color("#a78bff");
+const RED = new THREE.Color("#ff5b5b");
 
 function brainPoint(): THREE.Vector3 {
   const theta = Math.random() * Math.PI * 2;
@@ -47,9 +48,18 @@ type Link = {
   phase: number;
   speed: number;
   violet: boolean;
+  /** position 0→1 de la connexion dans la vague d'écriture (balayage
+      gauche → droite du cerveau, avec un peu de désordre organique) */
+  order: number;
 };
 
-function BrainMesh({ intensity }: { intensity: number }) {
+function BrainMesh({
+  intensity,
+  activity,
+}: {
+  intensity: number;
+  activity: number;
+}) {
   const group = useRef<THREE.Group>(null);
   const linkGeometry = useRef<THREE.BufferGeometry>(null);
   const color = useRef(new THREE.Color());
@@ -66,12 +76,15 @@ function BrainMesh({ intensity }: { intensity: number }) {
     outer: for (let i = 0; i < NEURONS; i++) {
       for (let j = i + 1; j < NEURONS; j++) {
         if (pts[i].distanceTo(pts[j]) < LINK_DIST && Math.random() < 0.35) {
+          const midX = (pts[i].x + pts[j].x) / 2;
+          const spatial = Math.min(1, Math.max(0, (midX + 1.35) / 2.7));
           links.push({
             a: i,
             b: j,
             phase: Math.random() * Math.PI * 2,
             speed: 0.7 + Math.random() * 1.6,
             violet: Math.random() < 0.15,
+            order: spatial * 0.85 + Math.random() * 0.15,
           });
           if (links.length >= MAX_LINKS) break outer;
         }
@@ -108,12 +121,25 @@ function BrainMesh({ intensity }: { intensity: number }) {
     const speedMul = 0.6 + intensity * 1.6;
     const c = color.current;
 
+    // vague ROUGE synchronisée avec l'écriture de la réponse (activity =
+    // progression du typewriter, pilotée par le scroll) : un front
+    // d'impulsions balaye le cerveau, position = avancement du texte
+    const waving = activity > 0.001 && activity < 0.999;
+
     data.links.forEach((link, i) => {
       const flash = Math.pow(
         Math.max(0, Math.sin(t * link.speed * speedMul + link.phase)),
         8
       );
       c.copy(DIM).lerp(link.violet ? VIOLET : BRIGHT, flash);
+      if (waving) {
+        // gaussienne centrée sur le front + scintillement rapide
+        const distance = (link.order - activity) * 7;
+        const wave =
+          Math.exp(-distance * distance) *
+          (0.75 + 0.25 * Math.sin(t * 9 + link.phase * 3));
+        c.lerp(RED, Math.min(1, wave));
+      }
       arr[i * 6] = c.r;
       arr[i * 6 + 1] = c.g;
       arr[i * 6 + 2] = c.b;
@@ -155,14 +181,21 @@ function BrainMesh({ intensity }: { intensity: number }) {
   );
 }
 
-export default function Brain({ intensity = 0.5 }: { intensity?: number }) {
+export default function Brain({
+  intensity = 0.5,
+  activity = 0,
+}: {
+  intensity?: number;
+  /** 0→1 : progression de l'écriture de la réponse (vague rouge synchro) */
+  activity?: number;
+}) {
   return (
     <Canvas
       camera={{ position: [0, 0.25, 2.9], fov: 42 }}
       dpr={[1, 1.5]}
       gl={{ alpha: true, antialias: true }}
     >
-      <BrainMesh intensity={intensity} />
+      <BrainMesh intensity={intensity} activity={activity} />
     </Canvas>
   );
 }
