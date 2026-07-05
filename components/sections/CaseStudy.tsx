@@ -17,7 +17,7 @@ export default function CaseStudy({ t }: { t: Translation }) {
             {t.caseStudy.location} <span className="text-accent">★★★★★</span>
           </p>
         </Reveal>
-        <div className="mt-16 grid grid-cols-2 gap-10 sm:gap-8 lg:grid-cols-4">
+        <div className="mt-16 grid gap-12 sm:grid-cols-3 sm:gap-8">
           {t.caseStudy.stats.map((stat) => (
             <Counter
               key={stat.label}

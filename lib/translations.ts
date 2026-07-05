@@ -48,7 +48,6 @@ const fr = {
     hotel: "Hôtel 5★ boutique — 13 chambres",
     location: "Méditerranée",
     stats: [
-      { value: 13, prefix: "", suffix: "", label: "chambres", countdown: false },
       {
         value: 30,
         prefix: "< ",
@@ -199,7 +198,6 @@ const en: Translation = {
     hotel: "5★ boutique hotel — 13 rooms",
     location: "Mediterranean",
     stats: [
-      { value: 13, prefix: "", suffix: "", label: "rooms", countdown: false },
       {
         value: 30,
         prefix: "< ",
