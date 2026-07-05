@@ -1,6 +1,7 @@
 "use client";
 
 import { Grid } from "@react-three/drei";
+import Sky from "./hotel/Sky";
 
 // Ambiance de la scène : brouillard assorti au fond du site, lumières,
 // et grille en perspective infinie sous le noyau (cyberspace discret —
@@ -18,6 +19,8 @@ export default function Environment({ showGrid = true }: { showGrid?: boolean })
       <ambientLight intensity={0.4} />
       <pointLight position={[4, 3, 4]} intensity={12} color="#4a9eff" />
       <pointLight position={[-4, -2, -4]} intensity={8} color="#7c5cff" />
+
+      <Sky />
 
       {showGrid && <Grid
         position={[0, -2.4, 0]}
