@@ -4,6 +4,8 @@ import { useRef } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { WireBox, GlowPlane } from "./primitives";
+import LobbyFloor from "./LobbyFloor";
+import LobbyCeiling from "./LobbyCeiling";
 
 // Le hall d'entrée : volume filaire, colonnes, comptoir de réception,
 // et l'ordinateur dont l'écran brille plus fort que tout le reste —
@@ -26,7 +28,10 @@ export default function Lobby() {
   return (
     <group position={[0, 0, -3.5]}>
       {/* Volume de la pièce */}
-      <WireBox size={[W, H, D]} position={[0, H / 2, 0]} opacity={0.28} />
+      <WireBox size={[W, H, D]} position={[0, H / 2, 0]} opacity={0.24} />
+
+      <LobbyFloor />
+      <LobbyCeiling />
 
       {/* Colonnes */}
       {[

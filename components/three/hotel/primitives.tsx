@@ -34,6 +34,38 @@ export function WireBox({
   );
 }
 
+/** Cylindre filaire : tasse, vase, pot de plante… */
+export function WireCylinder({
+  radius,
+  height,
+  color = "#4a9eff",
+  opacity = 0.7,
+  segments = 10,
+  position,
+  rotation,
+}: {
+  radius: number;
+  height: number;
+  color?: string;
+  opacity?: number;
+  segments?: number;
+  position?: Vec3;
+  rotation?: Vec3;
+}) {
+  const geometry = useMemo(
+    () =>
+      new THREE.EdgesGeometry(
+        new THREE.CylinderGeometry(radius, radius, height, segments)
+      ),
+    [radius, height, segments]
+  );
+  return (
+    <lineSegments position={position} rotation={rotation} geometry={geometry}>
+      <lineBasicMaterial color={color} transparent opacity={opacity} />
+    </lineSegments>
+  );
+}
+
 /** Plan émissif : fenêtre allumée, écran, enseigne… (les foyers de lumière). */
 export function GlowPlane({
   size,
