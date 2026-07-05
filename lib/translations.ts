@@ -6,14 +6,14 @@ const fr = {
   meta: {
     title: "Enzo Cosnard — Agent Concierge IA pour hôtels boutique",
     description:
-      "L'agent IA qui répond aux emails de votre réception 24/7, en 5 langues, avec le ton de votre maison. Déjà en production dans un hôtel boutique 5★.",
+      "L'agent IA qui répond aux emails de votre réception 24/7, dans toutes les langues, avec le ton de votre maison. Déjà en production dans un hôtel boutique 5★.",
   },
   hero: {
     eyebrow: "Enzo Cosnard — Agent concierge IA",
     titleStart: "Concierge IA pour ",
     titleAccent: "hôtels boutique",
     subtitle:
-      "L'agent qui répond à vos emails 24/7, en 5 langues, avec le ton de votre maison.",
+      "L'agent qui répond à vos emails 24/7, dans toutes les langues, avec le ton de votre maison.",
     ctaPrimary: "Voir la démo",
     ctaSecondary: "Contact",
   },
@@ -49,7 +49,7 @@ const fr = {
     location: "Méditerranée",
     stats: [
       { value: 13, prefix: "", suffix: "", label: "chambres" },
-      { value: 5, prefix: "", suffix: "", label: "langues traitées" },
+      { value: 100, prefix: "", suffix: " %", label: "multilingue" },
       {
         value: 2,
         prefix: "~",
@@ -82,7 +82,7 @@ const fr = {
         monthly: "80€",
         features: [
           "Tri automatique des emails entrants",
-          "Brouillons de réponse en 5 langues",
+          "Brouillons de réponse multilingues",
           "Dashboard de suivi",
         ],
       },
@@ -137,14 +137,14 @@ const en: Translation = {
   meta: {
     title: "Enzo Cosnard — AI Concierge Agent for boutique hotels",
     description:
-      "The AI agent that answers your front desk emails 24/7, in 5 languages, with the voice of your house. Already live at a 5★ boutique hotel.",
+      "The AI agent that answers your front desk emails 24/7, in all major languages, with the voice of your house. Already live at a 5★ boutique hotel.",
   },
   hero: {
     eyebrow: "Enzo Cosnard — AI concierge agent",
     titleStart: "AI concierge for ",
     titleAccent: "boutique hotels",
     subtitle:
-      "The agent that answers your emails 24/7, in 5 languages, with the voice of your house.",
+      "The agent that answers your emails 24/7, in all major languages, with the voice of your house.",
     ctaPrimary: "See the demo",
     ctaSecondary: "Contact",
   },
@@ -180,7 +180,7 @@ const en: Translation = {
     location: "Mediterranean",
     stats: [
       { value: 13, prefix: "", suffix: "", label: "rooms" },
-      { value: 5, prefix: "", suffix: "", label: "languages handled" },
+      { value: 100, prefix: "", suffix: "%", label: "multilingual" },
       {
         value: 2,
         prefix: "~",
@@ -213,7 +213,7 @@ const en: Translation = {
         monthly: "80€",
         features: [
           "Automatic sorting of incoming emails",
-          "Reply drafts in 5 languages",
+          "Multilingual reply drafts",
           "Monitoring dashboard",
         ],
       },
