@@ -1,30 +1,23 @@
 "use client";
 
-import { useRef } from "react";
-import * as THREE from "three";
-import { useFrame } from "@react-three/fiber";
 import { WireBox, GlowPlane } from "./primitives";
 import LobbyFloor from "./LobbyFloor";
 import LobbyCeiling from "./LobbyCeiling";
+import LobbyProps from "./LobbyProps";
+import LobbyDecor from "./LobbyDecor";
 
-// Le hall d'entrée : volume filaire, colonnes, comptoir de réception,
-// et l'ordinateur dont l'écran brille plus fort que tout le reste —
-// c'est l'agent, déjà à son poste. L'écran "respire" doucement.
+// Le hall d'entrée : structure (volume, colonnes, comptoir, casier à clés)
+// + sous-ensembles : LobbyFloor (dallage), LobbyCeiling (poutres, spots,
+// corniche ambrée), LobbyProps (poste de travail), LobbyDecor (mobilier).
+// Style : bleu néon dominant, liserés laiton #d4a574 (référence luxe).
 // Coordonnées locales : sol à y = 0, le hall s'étend derrière la façade.
 
 const W = 9;
 const D = 8;
 const H = 3.4;
+const AMBER = "#d4a574";
 
 export default function Lobby() {
-  const screenMat = useRef<THREE.MeshBasicMaterial>(null);
-
-  useFrame(({ clock }) => {
-    if (!screenMat.current) return;
-    screenMat.current.opacity =
-      0.8 + Math.sin(clock.getElapsedTime() * 2.2) * 0.2;
-  });
-
   return (
     <group position={[0, 0, -3.5]}>
       {/* Volume de la pièce */}
@@ -32,6 +25,8 @@ export default function Lobby() {
 
       <LobbyFloor />
       <LobbyCeiling />
+      <LobbyProps />
+      <LobbyDecor />
 
       {/* Colonnes */}
       {[
@@ -44,7 +39,7 @@ export default function Lobby() {
           key={`${x}-${z}`}
           size={[0.18, H, 0.18]}
           position={[x, H / 2, z]}
-          opacity={0.5}
+          opacity={0.45}
         />
       ))}
 
@@ -53,50 +48,34 @@ export default function Lobby() {
         size={[0.03, 4.6]}
         color="#4a9eff"
         opacity={0.5}
-        position={[-0.8, 0.01, 1.2]}
+        position={[-0.8, 0.016, 1.2]}
         rotation={[-Math.PI / 2, 0, 0]}
       />
       <GlowPlane
         size={[0.03, 4.6]}
         color="#4a9eff"
         opacity={0.5}
-        position={[0.8, 0.01, 1.2]}
+        position={[0.8, 0.016, 1.2]}
         rotation={[-Math.PI / 2, 0, 0]}
       />
 
-      {/* Comptoir de réception + liseré lumineux sous le plateau */}
+      {/* Comptoir de réception + liserés laiton (haut et socle) */}
       <WireBox
         size={[2.6, 1.05, 0.7]}
         position={[0, 0.525, -1]}
         opacity={0.85}
       />
       <GlowPlane
-        size={[2.56, 0.045]}
-        color="#4a9eff"
+        size={[2.56, 0.04]}
+        color={AMBER}
         opacity={0.7}
-        position={[0, 0.92, -0.63]}
+        position={[0, 0.98, -0.63]}
       />
-
-      {/* L'ordinateur de la réception : pied, écran lumineux, cadre */}
-      <WireBox
-        size={[0.04, 0.18, 0.04]}
-        position={[0, 1.14, -1.1]}
-        opacity={0.8}
-      />
-      <mesh position={[0, 1.32, -1.1]} rotation={[-0.08, 0, 0]}>
-        <planeGeometry args={[0.6, 0.38]} />
-        <meshBasicMaterial
-          ref={screenMat}
-          color="#d6ecff"
-          transparent
-          side={THREE.DoubleSide}
-        />
-      </mesh>
-      <WireBox
-        size={[0.66, 0.44, 0.03]}
-        position={[0, 1.32, -1.11]}
-        rotation={[-0.08, 0, 0]}
-        opacity={0.9}
+      <GlowPlane
+        size={[2.56, 0.03]}
+        color={AMBER}
+        opacity={0.45}
+        position={[0, 0.06, -0.63]}
       />
 
       {/* Suspensions lumineuses au plafond */}
@@ -153,21 +132,21 @@ export default function Lobby() {
       })}
 
       {/* Tapis devant le comptoir */}
-      <WireBox
-        size={[3, 0.004, 2]}
-        position={[0, 0.012, 0.6]}
-        opacity={0.35}
-      />
+      <WireBox size={[3, 0.004, 2]} position={[0, 0.02, 0.6]} opacity={0.35} />
       <WireBox
         size={[2.4, 0.003, 1.5]}
-        position={[0, 0.01, 0.6]}
+        position={[0, 0.018, 0.6]}
         opacity={0.2}
       />
 
       {/* Coin salon : deux fauteuils + table basse lumineuse */}
       {[1.1, -0.1].map((z) => (
         <group key={`chair-${z}`} position={[-3.1, 0, z]}>
-          <WireBox size={[0.55, 0.35, 0.55]} position={[0, 0.175, 0]} opacity={0.6} />
+          <WireBox
+            size={[0.55, 0.35, 0.55]}
+            position={[0, 0.175, 0]}
+            opacity={0.6}
+          />
           <WireBox
             size={[0.08, 0.5, 0.55]}
             position={[-0.24, 0.55, 0]}
@@ -175,11 +154,7 @@ export default function Lobby() {
           />
         </group>
       ))}
-      <WireBox
-        size={[0.7, 0.28, 0.7]}
-        position={[-2.2, 0.14, 0.5]}
-        opacity={0.6}
-      />
+      <WireBox size={[0.7, 0.28, 0.7]} position={[-2.2, 0.14, 0.5]} opacity={0.6} />
       <GlowPlane
         size={[0.6, 0.6]}
         color="#4a9eff"
@@ -188,7 +163,7 @@ export default function Lobby() {
         rotation={[-Math.PI / 2, 0, 0]}
       />
 
-      {/* Appliques sur les colonnes */}
+      {/* Appliques sur les colonnes — ambre chaud (références luxe) */}
       {[
         [-2.8, -2],
         [2.8, -2],
@@ -198,8 +173,8 @@ export default function Lobby() {
         <GlowPlane
           key={`sconce-${x}-${z}`}
           size={[0.08, 0.28]}
-          color="#a8d2ff"
-          opacity={0.7}
+          color="#e8c79a"
+          opacity={0.65}
           position={[x, 2.25, z + 0.11]}
         />
       ))}
