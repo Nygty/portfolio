@@ -55,7 +55,14 @@ export default function Scene() {
   const reducedMotion = usePrefersReducedMotion();
 
   return (
-    <div className="fixed inset-0 -z-10" aria-hidden>
+    // Mobile : façade légèrement floutée et atténuée — fond d'ambiance,
+    // le contenu HTML reste la vedette
+    <div
+      className={`fixed inset-0 -z-10 ${
+        isMobile ? "opacity-75 blur-[2px]" : ""
+      }`}
+      aria-hidden
+    >
       <Canvas
         camera={{ position: [0, -1.3, 10.5], fov: 45 }}
         dpr={isMobile ? [1, 1.5] : [1, 2]}
