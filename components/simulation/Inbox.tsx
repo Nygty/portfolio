@@ -42,7 +42,7 @@ export default function Inbox({
       <div className="border-b border-white/10 px-5 py-3">
         <span className="text-sm font-semibold text-[#e8edf5]">Inbox</span>
         <span className="ml-2 text-xs text-[#8a93a5]">
-          reception@palazzo-bettina.mt
+          hotel.reception@gmail.com
         </span>
       </div>
 
