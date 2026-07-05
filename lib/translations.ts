@@ -71,12 +71,6 @@ const fr = {
         countdown: false,
       },
     ],
-    testimonial: {
-      quote:
-        "L'agent a transformé notre réception. Nos clients reçoivent une réponse en moins d'une minute, même à 3h du matin.",
-      author: "— Directeur d'un hôtel boutique 5★",
-      disclaimer: "Témoignage représentatif basé sur les performances mesurées",
-    },
   },
   about: {
     name: "Enzo Cosnard",
@@ -228,12 +222,6 @@ const en: Translation = {
         countdown: false,
       },
     ],
-    testimonial: {
-      quote:
-        "The agent transformed our front desk. Our guests receive a reply in under a minute, even at 3 a.m.",
-      author: "— Director of a 5★ boutique hotel",
-      disclaimer: "Representative testimonial based on measured performance",
-    },
   },
   about: {
     name: "Enzo Cosnard",

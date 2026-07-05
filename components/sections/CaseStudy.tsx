@@ -1,6 +1,5 @@
 import Counter from "../ui/Counter";
 import Reveal from "../ui/Reveal";
-import Testimonial from "../ui/Testimonial";
 import type { Translation } from "@/lib/translations";
 
 export default function CaseStudy({ t }: { t: Translation }) {
@@ -30,14 +29,6 @@ export default function CaseStudy({ t }: { t: Translation }) {
             />
           ))}
         </div>
-
-        <Reveal delay={0.15}>
-          <Testimonial
-            quote={t.caseStudy.testimonial.quote}
-            author={t.caseStudy.testimonial.author}
-            disclaimer={t.caseStudy.testimonial.disclaimer}
-          />
-        </Reveal>
       </div>
     </section>
   );
