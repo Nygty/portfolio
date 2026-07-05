@@ -161,8 +161,8 @@ export default function Facade({ reflection = false }: { reflection?: boolean })
     }
   });
 
-  const pulsingKeys = PULSING.map((p) => p.key);
-  const toggleKeys = SCROLL_TOGGLE.map((s) => s.key);
+  const pulsingKeys: string[] = PULSING.map((p) => p.key);
+  const toggleKeys: string[] = SCROLL_TOGGLE.map((s) => s.key);
 
   const frontWindows: React.ReactNode[] = [];
   const balconies: React.ReactNode[] = [];
