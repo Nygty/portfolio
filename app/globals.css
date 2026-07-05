@@ -35,12 +35,6 @@ body {
   }
 }
 
-/* Curseur custom actif : le curseur natif disparaît partout */
-.custom-cursor,
-.custom-cursor * {
-  cursor: none !important;
-}
-
 /* Curseur de saisie de la simulation "dans l'écran" */
 @keyframes caret-blink {
   0%,

@@ -4,7 +4,6 @@ import OutlookSceneMobile from "@/components/simulation/OutlookSceneMobile";
 import Caption from "@/components/ui/Caption";
 import ScrollHint from "@/components/ui/ScrollHint";
 import ProgressBar from "@/components/ui/ProgressBar";
-import CustomCursor from "@/components/ui/CustomCursor";
 import ScreenEasterEgg from "@/components/ui/ScreenEasterEgg";
 import FloatingCta from "@/components/ui/FloatingCta";
 import Hero from "@/components/sections/Hero";
@@ -31,7 +30,6 @@ export default async function Home({
       <Caption locale={locale} />
       <ScrollHint locale={locale} />
       <ProgressBar />
-      <CustomCursor />
       <ScreenEasterEgg locale={locale} />
       <FloatingCta locale={locale} />
       <Hero t={t} />
