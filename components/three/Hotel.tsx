@@ -1,15 +1,50 @@
 "use client";
 
+import { useRef } from "react";
+import * as THREE from "three";
+import { useFrame } from "@react-three/fiber";
 import Facade from "./hotel/Facade";
+import Lobby from "./hotel/Lobby";
+import { sceneState } from "@/lib/scroll-timeline";
+
+// La façade s'estompe quand la caméra la traverse (sceneState.facadeOpacity).
+// Chaque matériau garde son opacité d'origine en mémoire (userData) et est
+// multiplié par le fade. Les matériaux marqués skipFade (fenêtre qui pulse)
+// gèrent leur fade eux-mêmes.
+function FadingFacade() {
+  const group = useRef<THREE.Group>(null);
+  const applied = useRef(-1);
+
+  useFrame(() => {
+    const f = sceneState.facadeOpacity;
+    if (!group.current || Math.abs(f - applied.current) < 0.001) return;
+    applied.current = f;
+    group.current.visible = f > 0.001;
+    group.current.traverse((obj) => {
+      const mat = (obj as THREE.Mesh).material as THREE.Material | undefined;
+      if (!mat || !("opacity" in mat) || mat.userData.skipFade) return;
+      if (mat.userData.baseOpacity === undefined) {
+        mat.userData.baseOpacity = mat.opacity;
+      }
+      mat.opacity = (mat.userData.baseOpacity as number) * f;
+    });
+  });
+
+  return (
+    <group ref={group}>
+      <Facade />
+    </group>
+  );
+}
 
 // L'hôtel complet, posé sur la grille du sol (y = -2.4).
-// Chaque lieu est un "plateau de tournage" à ses propres coordonnées ;
-// la caméra voyagera de l'un à l'autre au fil du scroll (étape 2+).
+// La caméra voyage de la façade vers le hall au fil du scroll.
 export default function Hotel() {
   return (
     <group position={[0, -2.4, 0]}>
-      <Facade />
-      {/* Hall + ordinateur de réception : étape 2 */}
+      <FadingFacade />
+      <Lobby />
+      {/* Zoom écran + simulation : étape 3 */}
     </group>
   );
 }

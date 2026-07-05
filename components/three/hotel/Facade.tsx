@@ -4,6 +4,7 @@ import { useRef } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { WireBox, GlowPlane } from "./primitives";
+import { sceneState } from "@/lib/scroll-timeline";
 
 // La façade de l'hôtel de nuit : volumes filaires bleu néon, grille de
 // fenêtres sombres, quelques-unes allumées (dont une qui pulse doucement).
@@ -36,8 +37,11 @@ export default function Facade() {
 
   useFrame(({ clock }) => {
     if (!pulsingMat.current) return;
+    // skipFade : ce matériau gère lui-même le fade de la façade
+    pulsingMat.current.userData.skipFade = true;
     const t = clock.getElapsedTime();
-    pulsingMat.current.opacity = 0.75 + Math.sin(t * 1.6) * 0.25;
+    pulsingMat.current.opacity =
+      (0.75 + Math.sin(t * 1.6) * 0.25) * sceneState.facadeOpacity;
   });
 
   const frontWindows: React.ReactNode[] = [];
