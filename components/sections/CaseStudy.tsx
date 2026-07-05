@@ -1,30 +1,32 @@
 import Counter from "../ui/Counter";
 import Reveal from "../ui/Reveal";
+import type { Translation } from "@/lib/translations";
 
-export default function CaseStudy() {
+export default function CaseStudy({ t }: { t: Translation }) {
   return (
     <section id="cas-client" className="relative min-h-screen px-6">
       <div className="mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center text-center">
         <Reveal>
           <p className="text-xs font-medium uppercase tracking-[0.35em] text-muted sm:text-sm">
-            En production chez
+            {t.caseStudy.eyebrow}
           </p>
           <h2 className="mt-6 font-heading text-3xl font-bold tracking-tight sm:text-4xl">
-            IBB Hotel Palazzo Bettina
+            {t.caseStudy.hotel}
           </h2>
           <p className="mt-2 text-muted">
-            Birgu, Malte <span className="text-accent">★★★★★</span>
+            {t.caseStudy.location} <span className="text-accent">★★★★★</span>
           </p>
         </Reveal>
         <div className="mt-16 grid gap-12 sm:grid-cols-3 sm:gap-8">
-          <Counter value={13} label="chambres" />
-          <Counter value={5} label="langues traitées" />
-          <Counter
-            value={2}
-            prefix="~"
-            suffix="h/jour"
-            label="économisées à la réception"
-          />
+          {t.caseStudy.stats.map((stat) => (
+            <Counter
+              key={stat.label}
+              value={stat.value}
+              prefix={stat.prefix}
+              suffix={stat.suffix}
+              label={stat.label}
+            />
+          ))}
         </div>
       </div>
     </section>

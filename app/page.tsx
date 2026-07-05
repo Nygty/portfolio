@@ -1,24 +1,8 @@
-import SmoothScroll from "@/components/SmoothScroll";
-import SceneLoader from "@/components/three/SceneLoader";
-import Hero from "@/components/sections/Hero";
-import Agent from "@/components/sections/Agent";
-import HowItWorks from "@/components/sections/HowItWorks";
-import CaseStudy from "@/components/sections/CaseStudy";
-import About from "@/components/sections/About";
-import Pricing from "@/components/sections/Pricing";
+import { redirect } from "next/navigation";
 
-export default function Home() {
-  return (
-    <SmoothScroll>
-      <main className="relative">
-        <SceneLoader />
-        <Hero />
-        <Agent />
-        <HowItWorks />
-        <CaseStudy />
-        <About />
-        <Pricing />
-      </main>
-    </SmoothScroll>
-  );
+// Filet de sécurité : la détection de langue se fait normalement dans
+// middleware.ts (cookie + Accept-Language). Si une requête atteint quand
+// même cette page, on renvoie vers le français (marché de base).
+export default function RootRedirect() {
+  redirect("/fr");
 }

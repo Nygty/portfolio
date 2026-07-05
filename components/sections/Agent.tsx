@@ -1,23 +1,18 @@
 import Reveal from "../ui/Reveal";
+import type { Translation } from "@/lib/translations";
 
-const points = [
-  "Lit chaque email entrant en < 2 secondes",
-  "Propose une réponse rédigée, prête à envoyer",
-  "Apprend le ton de votre réception au fil des semaines",
-];
-
-export default function Agent() {
+export default function Agent({ t }: { t: Translation }) {
   return (
     <section id="agent" className="relative min-h-screen px-6 md:min-h-[150vh]">
       <div className="mx-auto flex min-h-screen max-w-5xl flex-col justify-center">
         <Reveal>
           <h2 className="max-w-3xl font-heading text-4xl font-bold tracking-tight sm:text-5xl">
-            Un membre de plus dans votre équipe.{" "}
-            <span className="text-accent">Sans le salaire.</span>
+            {t.agent.titleStart}
+            <span className="text-accent">{t.agent.titleAccent}</span>
           </h2>
         </Reveal>
         <ul className="mt-14 space-y-8">
-          {points.map((point, i) => (
+          {t.agent.bullets.map((point, i) => (
             <li key={point}>
               <Reveal delay={i * 0.15} className="flex items-start gap-5">
                 <span className="mt-1 font-heading text-sm font-bold tabular-nums text-accent-hot">

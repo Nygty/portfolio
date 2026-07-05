@@ -1,39 +1,45 @@
+"use client";
+
+import Image from "next/image";
+import { motion } from "framer-motion";
 import Reveal from "../ui/Reveal";
+import type { Translation } from "@/lib/translations";
 
-const links = [
-  { label: "GitHub", href: "https://github.com/Nygty" },
-  { label: "LinkedIn", href: "#" }, // TODO: ajouter l'URL LinkedIn
-  { label: "Email", href: "mailto:enzo26cosnard@gmail.com" },
-];
+export default function About({ t }: { t: Translation }) {
+  const links = [
+    { label: t.about.links.github, href: "https://github.com/Nygty" },
+    { label: t.about.links.linkedin, href: "#" }, // TODO: ajouter l'URL LinkedIn
+    { label: t.about.links.email, href: "mailto:enzo26cosnard@gmail.com" },
+  ];
 
-export default function About() {
   return (
     <section id="a-propos" className="relative min-h-screen px-6">
       <div className="mx-auto flex min-h-screen max-w-3xl flex-col items-center justify-center text-center">
         <Reveal>
-          {/* TODO: remplacer par vraie photo — remplacer ce <div> par
-              <Image src="/photo.jpg" alt="Enzo Cosnard" width={144} height={144}
-                     className="h-36 w-36 rounded-full object-cover" />
-              (mettre le fichier photo.jpg dans le dossier public/) */}
-          <div className="mx-auto flex h-36 w-36 items-center justify-center rounded-full bg-gradient-to-br from-accent to-accent-hot shadow-[0_0_60px_rgba(74,158,255,0.35)]">
-            <span className="font-heading text-5xl font-bold text-bg">EC</span>
-          </div>
+          <motion.div
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.3 }}
+            className="mx-auto w-fit"
+          >
+            {/* Photo : public/enzo.jpg. Pour la remplacer, écrase le fichier en gardant le même nom. */}
+            <Image
+              src="/enzo.jpg"
+              alt={t.about.photoAlt}
+              width={224}
+              height={224}
+              className="h-40 w-40 rounded-full border-2 border-accent/30 object-cover object-[center_30%] shadow-[0_0_60px_rgba(74,158,255,0.25)] sm:h-56 sm:w-56"
+            />
+          </motion.div>
         </Reveal>
 
         <Reveal delay={0.15}>
           <h2 className="mt-10 font-heading text-4xl font-bold tracking-tight sm:text-5xl">
-            Enzo Cosnard
+            {t.about.name}
           </h2>
           <div className="mt-6 space-y-2 text-lg text-muted">
-            <p>
-              20 ans, étudiant, actuellement en stage à IBB Palazzo Bettina
-              (Malte).
-            </p>
-            <p>Développe et vend un agent concierge IA pour hôtels boutique.</p>
-            <p>
-              Basé entre la France et Malte, ouvert aux missions freelance et
-              partenariats.
-            </p>
+            {t.about.lines.map((line) => (
+              <p key={line}>{line}</p>
+            ))}
           </div>
         </Reveal>
 

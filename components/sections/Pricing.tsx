@@ -4,48 +4,17 @@ import { useState } from "react";
 import Button from "../ui/Button";
 import Card from "../ui/Card";
 import Reveal from "../ui/Reveal";
+import type { Translation } from "@/lib/translations";
 
-const plans = [
-  {
-    name: "Standard",
-    setup: "800€ setup",
-    monthly: "80€",
-    features: [
-      "Tri automatique des emails entrants",
-      "Brouillons de réponse en 5 langues",
-      "Dashboard de suivi",
-    ],
-  },
-  {
-    name: "Premium",
-    setup: "800€ setup",
-    monthly: "120€",
-    features: [
-      "Tout Standard",
-      "Amélioration automatique hebdomadaire",
-      "Rapport mensuel",
-    ],
-  },
-  {
-    name: "Premium+",
-    setup: "1200€ setup",
-    monthly: "150€",
-    features: [
-      "Tout Premium",
-      "Formation sur les vrais échanges de votre réception",
-    ],
-  },
-];
-
-export default function Pricing() {
+export default function Pricing({ t }: { t: Translation }) {
   const [nom, setNom] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
   // Pas de backend : le bouton ouvre le client mail du visiteur,
-  // pré-rempli avec le contenu du formulaire.
+  // pré-rempli avec le contenu du formulaire (sujet et corps traduits).
   const mailtoHref = `mailto:enzo26cosnard@gmail.com?subject=${encodeURIComponent(
-    `Contact portfolio — ${nom || "sans nom"}`
+    `${t.pricing.form.mailSubjectPrefix}${nom || t.pricing.form.noName}`
   )}&body=${encodeURIComponent(`${message}\n\n—\n${nom}\n${email}`)}`;
 
   const inputClasses =
@@ -56,11 +25,11 @@ export default function Pricing() {
       <div className="mx-auto flex min-h-screen max-w-6xl flex-col justify-center py-20">
         <Reveal>
           <h2 className="text-center font-heading text-4xl font-bold tracking-tight sm:text-5xl">
-            3 formules. Pas de surprise.
+            {t.pricing.title}
           </h2>
         </Reveal>
         <div className="mt-16 grid gap-8 md:grid-cols-3">
-          {plans.map((plan, i) => (
+          {t.pricing.plans.map((plan, i) => (
             <Reveal key={plan.name} effect="flip" delay={i * 0.18}>
               <Card className="flex h-full flex-col">
                 <h3 className="font-heading text-xl font-bold text-text">
@@ -70,7 +39,7 @@ export default function Pricing() {
                   <span className="font-heading text-5xl font-bold tabular-nums text-accent">
                     {plan.monthly}
                   </span>
-                  <span className="text-muted"> / mois</span>
+                  <span className="text-muted">{t.pricing.perMonth}</span>
                 </div>
                 <p className="mt-1 text-sm text-muted">{plan.setup}</p>
                 <ul className="mt-8 space-y-3 text-sm text-muted">
@@ -90,7 +59,7 @@ export default function Pricing() {
       <div id="contact" className="mx-auto max-w-xl scroll-mt-24 pt-24">
         <Reveal>
           <h2 className="text-center font-heading text-3xl font-bold tracking-tight sm:text-4xl">
-            Parlons de votre réception.
+            {t.pricing.contactTitle}
           </h2>
         </Reveal>
         <form
@@ -102,7 +71,7 @@ export default function Pricing() {
         >
           <input
             type="text"
-            placeholder="Votre nom"
+            placeholder={t.pricing.form.name}
             value={nom}
             onChange={(e) => setNom(e.target.value)}
             required
@@ -110,14 +79,14 @@ export default function Pricing() {
           />
           <input
             type="email"
-            placeholder="Votre email"
+            placeholder={t.pricing.form.email}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
             className={inputClasses}
           />
           <textarea
-            placeholder="Votre message"
+            placeholder={t.pricing.form.message}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             required
@@ -125,13 +94,13 @@ export default function Pricing() {
             className={`${inputClasses} resize-none`}
           />
           <Button type="submit" className="self-center">
-            Envoyer
+            {t.pricing.form.submit}
           </Button>
         </form>
       </div>
 
       <footer className="mt-28 border-t border-accent/10 pt-8 text-center text-sm text-muted">
-        © 2026 Enzo Cosnard — Fait avec Next.js &amp; Three.js
+        {t.footer}
       </footer>
     </section>
   );
