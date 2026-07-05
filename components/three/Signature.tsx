@@ -3,6 +3,7 @@
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import { sceneState } from "@/lib/scroll-timeline";
 
 // Le "Noyau Concierge" : sphère de particules lumineuses qui respire
 // lentement, dégradé bleu → violet, avec un cœur brillant au centre.
@@ -45,12 +46,15 @@ export default function Signature() {
     return { positions, colors };
   }, []);
 
-  // Animation continue : rotation lente + "respiration"
-  useFrame(({ clock }) => {
+  // Animation continue (rotation + respiration) combinée à l'état
+  // piloté par le scroll (position, échelle, vitesse de rotation).
+  useFrame(({ clock }, delta) => {
     if (!group.current) return;
     const t = clock.getElapsedTime();
-    group.current.rotation.y = t * 0.12;
-    group.current.scale.setScalar(1 + Math.sin(t * 0.7) * 0.035);
+    group.current.rotation.y += delta * sceneState.spin;
+    const breath = 1 + Math.sin(t * 0.7) * 0.035;
+    group.current.scale.setScalar(breath * sceneState.scale);
+    group.current.position.set(sceneState.x, sceneState.y, sceneState.z);
   });
 
   return (

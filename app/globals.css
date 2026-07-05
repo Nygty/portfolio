@@ -14,10 +14,8 @@
   --font-body: var(--font-inter), sans-serif;
 }
 
-html {
-  /* Scroll fluide natif en attendant Lenis (étape 4) */
-  scroll-behavior: smooth;
-}
+/* Le smooth scroll est géré par Lenis (components/SmoothScroll.tsx) —
+   pas de scroll-behavior CSS, les deux entreraient en conflit. */
 
 body {
   background: var(--color-bg);

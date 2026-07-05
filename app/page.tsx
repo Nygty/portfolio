@@ -1,3 +1,4 @@
+import SmoothScroll from "@/components/SmoothScroll";
 import SceneLoader from "@/components/three/SceneLoader";
 import Hero from "@/components/sections/Hero";
 import Agent from "@/components/sections/Agent";
@@ -8,14 +9,16 @@ import Pricing from "@/components/sections/Pricing";
 
 export default function Home() {
   return (
-    <main className="relative">
-      <SceneLoader />
-      <Hero />
-      <Agent />
-      <HowItWorks />
-      <CaseStudy />
-      <About />
-      <Pricing />
-    </main>
+    <SmoothScroll>
+      <main className="relative">
+        <SceneLoader />
+        <Hero />
+        <Agent />
+        <HowItWorks />
+        <CaseStudy />
+        <About />
+        <Pricing />
+      </main>
+    </SmoothScroll>
   );
 }
