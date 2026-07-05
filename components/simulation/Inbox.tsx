@@ -30,9 +30,12 @@ const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 export default function Inbox({
   arriveP,
   openP,
+  read = false,
 }: {
   arriveP: number;
   openP: number;
+  /** true après l'envoi : l'email de Sarah apparaît comme lu/traité. */
+  read?: boolean;
 }) {
   const eased = easeOutCubic(arriveP);
   const highlighted = openP > 0.3;
@@ -59,15 +62,29 @@ export default function Inbox({
               transition: "background-color 200ms",
             }}
           >
-            <span className="h-2 w-2 shrink-0 rounded-full bg-[#4a9eff]" />
+            <span
+              className={`h-2 w-2 shrink-0 rounded-full ${
+                read ? "bg-transparent" : "bg-[#4a9eff]"
+              }`}
+            />
             <div className="min-w-0 flex-1">
               <div className="flex items-baseline justify-between gap-3">
-                <span className="truncate text-sm font-bold text-[#e8edf5]">
+                <span
+                  className={`truncate text-sm ${
+                    read ? "text-[#a9b2c2]" : "font-bold text-[#e8edf5]"
+                  }`}
+                >
                   Sarah Miller
                 </span>
-                <span className="shrink-0 text-xs text-[#8a93a5]">09:14</span>
+                <span className="shrink-0 text-xs text-[#8a93a5]">
+                  {read ? "↩ 09:14" : "09:14"}
+                </span>
               </div>
-              <div className="truncate text-sm font-bold text-[#c9d3e0]">
+              <div
+                className={`truncate text-sm ${
+                  read ? "text-[#a9b2c2]" : "font-bold text-[#c9d3e0]"
+                }`}
+              >
                 Booking request for August 15th
               </div>
               <div className="truncate text-xs text-[#8a93a5]">

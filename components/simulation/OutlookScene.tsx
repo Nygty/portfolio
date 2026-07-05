@@ -1,9 +1,12 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import LoginWindow from "./LoginWindow";
 import Inbox from "./Inbox";
 import EmailDetail from "./EmailDetail";
 import AIPanel from "./AIPanel";
+import SendCursor from "./SendCursor";
+import { playDing, playSwoosh } from "@/lib/sound";
 import { useScrollState } from "@/lib/use-scroll-state";
 import { useIsMobile, usePrefersReducedMotion } from "@/lib/use-media";
 
@@ -30,6 +33,16 @@ export default function OutlookScene() {
   const { progress: p } = useScrollState();
   const isMobile = useIsMobile();
   const reducedMotion = usePrefersReducedMotion();
+  const windowRef = useRef<HTMLDivElement>(null);
+
+  // Sons : joués une fois au franchissement (en descendant uniquement)
+  const prevP = useRef(0);
+  useEffect(() => {
+    const prev = prevP.current;
+    prevP.current = p;
+    if (prev < 0.592 && p >= 0.592) playDing(); // connexion validée
+    if (prev < 0.857 && p >= 0.857) playSwoosh(); // email envoyé
+  }, [p]);
 
   if (isMobile || reducedMotion) return null;
 
@@ -48,6 +61,13 @@ export default function OutlookScene() {
   const aiSlideP = seg(p, 0.652, 0.672); // le panneau IA s'ouvre
   const thinkP = seg(p, 0.672, 0.72); // le blob réfléchit
   const typeP = seg(p, 0.72, 0.79); // la réponse s'écrit
+
+  // Chorégraphie de la phase "send" (80 → 90%)
+  const moveP = seg(p, 0.8, 0.845); // le curseur glisse vers Send
+  const hoverP = seg(p, 0.843, 0.852); // survol du bouton
+  const clickP = seg(p, 0.852, 0.862); // clic (compression + ondulation)
+  const sentP = seg(p, 0.865, 0.888); // l'email glisse hors de l'écran
+  const toastP = seg(p, 0.872, 0.888); // toast "✓ Message sent"
 
   const showLogin = p < 0.595;
   const showInbox = p >= 0.592 && detailP < 1;
@@ -71,6 +91,7 @@ export default function OutlookScene() {
           </div>
         ) : (
           <div
+            ref={windowRef}
             className="relative flex h-[72vh] w-full max-w-3xl flex-col overflow-hidden rounded-xl border border-white/10 bg-[#1a1e27] shadow-2xl"
             style={{ opacity: inboxFade }}
           >
@@ -94,20 +115,65 @@ export default function OutlookScene() {
                 </div>
               )}
               {showDetail && (
-                <div className="absolute inset-0 flex bg-[#1a1e27]">
-                  <div className="min-w-0 flex-1">
-                    <EmailDetail p={detailP} />
-                  </div>
-                  {aiSlideP > 0 && (
-                    <AIPanel
-                      slideP={aiSlideP}
-                      thinkP={thinkP}
-                      typeP={typeP}
-                    />
+                <>
+                  {/* Après l'envoi : l'inbox réapparaît derrière, email traité */}
+                  {sentP > 0 && (
+                    <div className="absolute inset-0">
+                      <Inbox arriveP={1} openP={0} read />
+                    </div>
                   )}
-                </div>
+
+                  {/* L'email + le panneau IA (glissent vers la droite à l'envoi) */}
+                  <div
+                    className="absolute inset-0 flex bg-[#1a1e27]"
+                    style={
+                      sentP > 0
+                        ? {
+                            transform: `translateX(${sentP * sentP * 110}%)`,
+                            opacity: 1 - sentP * 0.25,
+                          }
+                        : undefined
+                    }
+                  >
+                    <div className="min-w-0 flex-1">
+                      <EmailDetail p={detailP} />
+                    </div>
+                    {aiSlideP > 0 && (
+                      <AIPanel
+                        slideP={aiSlideP}
+                        thinkP={thinkP}
+                        typeP={typeP}
+                        hoverP={hoverP}
+                        clickP={clickP}
+                      />
+                    )}
+                  </div>
+
+                  {/* Toast de confirmation */}
+                  {toastP > 0 && (
+                    <div
+                      className="absolute right-4 top-4 rounded-lg border border-white/10 bg-[#1f2735] px-4 py-2.5 text-xs font-medium text-[#d9e2ee] shadow-xl"
+                      style={{
+                        opacity: toastP,
+                        transform: `translateY(${(1 - toastP) * -8}px)`,
+                      }}
+                    >
+                      <span className="mr-1.5 text-[#5dd39e]">✓</span>
+                      Message sent
+                    </div>
+                  )}
+                </>
               )}
             </div>
+
+            {/* Le curseur autonome, par-dessus tout le contenu de la fenêtre */}
+            {moveP > 0 && sentP < 0.4 && (
+              <SendCursor
+                moveP={moveP}
+                clickP={clickP}
+                containerRef={windowRef}
+              />
+            )}
           </div>
         )}
       </div>

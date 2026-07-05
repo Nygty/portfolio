@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import SmoothScroll from "@/components/SmoothScroll";
 import SetHtmlLang from "@/components/SetHtmlLang";
 import LocaleSwitcher from "@/components/LocaleSwitcher";
+import SoundToggle from "@/components/ui/SoundToggle";
 import { translations, type Locale } from "@/lib/translations";
 
 // SEO par langue : titre, description, OG image et locale adaptés,
@@ -62,6 +63,7 @@ export default async function LocaleLayout({
     <SmoothScroll>
       <SetHtmlLang locale={locale} />
       <LocaleSwitcher locale={locale} />
+      <SoundToggle />
       {children}
     </SmoothScroll>
   );

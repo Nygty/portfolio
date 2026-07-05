@@ -20,11 +20,18 @@ export default function AIPanel({
   slideP,
   thinkP,
   typeP,
+  hoverP = 0,
+  clickP = 0,
 }: {
   slideP: number;
   thinkP: number;
   typeP: number;
+  /** Survol simulé du bouton Send (curseur de l'étape 6). */
+  hoverP?: number;
+  /** Clic simulé sur le bouton Send. */
+  clickP?: number;
 }) {
+  const press = Math.sin(Math.min(1, clickP) * Math.PI);
   const thinking = thinkP > 0 && typeP <= 0;
   const chars = Math.round(typeP * REPLY.length);
   const status = thinking
@@ -67,9 +74,14 @@ export default function AIPanel({
         <div className="flex justify-end gap-2 px-4 py-3">
           <span
             id="sim-send-button"
-            className={`rounded-md px-5 py-2 text-xs font-semibold text-white transition-opacity ${
-              typeP >= 1 ? "bg-[#2f6cb4] opacity-100" : "bg-[#2f6cb4] opacity-40"
+            className={`rounded-md px-5 py-2 text-xs font-semibold text-white transition-all duration-200 ${
+              typeP < 1
+                ? "bg-[#2f6cb4] opacity-40"
+                : hoverP > 0.5
+                  ? "bg-[#3d8be0] opacity-100 shadow-[0_0_16px_rgba(74,158,255,0.45)]"
+                  : "bg-[#2f6cb4] opacity-100"
             }`}
+            style={{ transform: `scale(${1 - press * 0.1})` }}
           >
             Send
           </span>
