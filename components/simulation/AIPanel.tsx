@@ -14,7 +14,7 @@ Thank you for your inquiry. We have a Sea View Deluxe room available on August 1
 Would you like me to hold the reservation for you?
 
 Warm regards,
-IBB Palazzo Bettina — Reception`;
+The Reception Team`;
 
 export default function AIPanel({
   slideP,

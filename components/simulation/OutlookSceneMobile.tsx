@@ -18,7 +18,7 @@ function WindowFrame({ children }: { children: ReactNode }) {
         <span className="h-2 w-2 rounded-full bg-white/15" />
         <span className="h-2 w-2 rounded-full bg-white/15" />
         <span className="ml-2 text-[10px] text-[#8a93a5]">
-          Mail — hotel.reception@gmail.com
+          Mail — reception@hotel-demo.com
         </span>
       </div>
       {children}
@@ -53,7 +53,7 @@ export default function OutlookSceneMobile({ locale }: { locale: Locale }) {
           <Label text={captions.agentAtPost} />
           <WindowFrame>
             <div className="space-y-3 p-5">
-              <div className={field}>hotel.reception@gmail.com</div>
+              <div className={field}>reception@hotel-demo.com</div>
               <div className={`${field} tracking-[0.2em]`}>●●●●●●●●●●</div>
               <div className="flex h-9 items-center justify-center rounded-md bg-[#2f6cb4] text-xs font-semibold text-white">
                 Sign in
@@ -98,7 +98,7 @@ export default function OutlookSceneMobile({ locale }: { locale: Locale }) {
                 Thank you for your inquiry. We have a Sea View Deluxe room
                 available on August 15th at €280 per night, breakfast included.
                 <br />
-                Warm regards — IBB Palazzo Bettina, Reception
+                Warm regards — The Reception Team
               </div>
               <div className="mt-3 flex items-center justify-between">
                 <span className="rounded-md border border-white/10 bg-[#1f2735] px-2.5 py-1.5 text-[10px] font-medium text-[#d9e2ee]">

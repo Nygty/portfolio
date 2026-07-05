@@ -101,7 +101,7 @@ export default function OutlookScene() {
               <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
               <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
               <span className="ml-3 text-xs text-[#8a93a5]">
-                Mail — IBB Palazzo Bettina
+                Mail — Front Desk
               </span>
             </div>
 

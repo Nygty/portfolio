@@ -6,7 +6,7 @@ const fr = {
   meta: {
     title: "Enzo Cosnard — Agent Concierge IA pour hôtels boutique",
     description:
-      "L'agent IA qui répond aux emails de votre réception 24/7, en 5 langues, avec le ton de votre maison. En production à l'IBB Hotel Palazzo Bettina (Malte).",
+      "L'agent IA qui répond aux emails de votre réception 24/7, en 5 langues, avec le ton de votre maison. Déjà en production dans un hôtel boutique 5★.",
   },
   hero: {
     eyebrow: "Enzo Cosnard — Agent concierge IA",
@@ -45,8 +45,8 @@ const fr = {
   },
   caseStudy: {
     eyebrow: "En production chez",
-    hotel: "IBB Hotel Palazzo Bettina",
-    location: "Birgu, Malte",
+    hotel: "Hôtel 5★ boutique — 13 chambres",
+    location: "Méditerranée",
     stats: [
       { value: 13, prefix: "", suffix: "", label: "chambres" },
       { value: 5, prefix: "", suffix: "", label: "langues traitées" },
@@ -62,9 +62,9 @@ const fr = {
     name: "Enzo Cosnard",
     photoAlt: "Enzo Cosnard",
     lines: [
-      "20 ans, étudiant, actuellement en stage à IBB Palazzo Bettina (Malte).",
+      "20 ans, étudiant, actuellement en stage dans un hôtel boutique 5★ en Méditerranée.",
       "Développe et vend un agent concierge IA pour hôtels boutique.",
-      "Basé entre la France et Malte, ouvert aux missions freelance et partenariats.",
+      "Basé en Europe, ouvert aux missions freelance et partenariats.",
     ],
     links: {
       github: "GitHub",
@@ -137,7 +137,7 @@ const en: Translation = {
   meta: {
     title: "Enzo Cosnard — AI Concierge Agent for boutique hotels",
     description:
-      "The AI agent that answers your front desk emails 24/7, in 5 languages, with the voice of your house. Live at IBB Hotel Palazzo Bettina (Malta).",
+      "The AI agent that answers your front desk emails 24/7, in 5 languages, with the voice of your house. Already live at a 5★ boutique hotel.",
   },
   hero: {
     eyebrow: "Enzo Cosnard — AI concierge agent",
@@ -176,8 +176,8 @@ const en: Translation = {
   },
   caseStudy: {
     eyebrow: "Live at",
-    hotel: "IBB Hotel Palazzo Bettina",
-    location: "Birgu, Malta",
+    hotel: "5★ boutique hotel — 13 rooms",
+    location: "Mediterranean",
     stats: [
       { value: 13, prefix: "", suffix: "", label: "rooms" },
       { value: 5, prefix: "", suffix: "", label: "languages handled" },
@@ -193,9 +193,9 @@ const en: Translation = {
     name: "Enzo Cosnard",
     photoAlt: "Enzo Cosnard",
     lines: [
-      "20 years old, student, currently interning at IBB Palazzo Bettina (Malta).",
+      "20 years old, student, currently interning at a 5★ boutique hotel in the Mediterranean.",
       "Builds and sells an AI concierge agent for boutique hotels.",
-      "Based between France and Malta, open to freelance work and partnerships.",
+      "Based in Europe, open to freelance work and partnerships.",
     ],
     links: {
       github: "GitHub",

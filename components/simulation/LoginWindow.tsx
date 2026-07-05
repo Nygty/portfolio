@@ -4,7 +4,7 @@
 // p : progression 0→1 de la séquence, pilotée par le scroll.
 // Jalons : apparition → email tapé → mot de passe → clic "Sign in".
 
-const EMAIL = "hotel.reception@gmail.com";
+const EMAIL = "reception@hotel-demo.com";
 const PASSWORD_LENGTH = 10;
 
 const clamp = (v: number) => Math.min(1, Math.max(0, v));
