@@ -24,6 +24,23 @@ body {
   overflow-x: hidden;
 }
 
+/* Indicateur "Défiler pour explorer" : pulsation douce */
+@keyframes hint-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Curseur custom actif : le curseur natif disparaît partout */
+.custom-cursor,
+.custom-cursor * {
+  cursor: none !important;
+}
+
 /* Curseur de saisie de la simulation "dans l'écran" */
 @keyframes caret-blink {
   0%,

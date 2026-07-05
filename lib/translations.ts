@@ -126,6 +126,12 @@ const fr = {
     agentDrafts: "L'agent rédige une réponse",
     sent: "Envoyé en 5 secondes",
   },
+  // Éléments d'interface (V3B full-upgrade)
+  ui: {
+    scrollHint: "Défiler pour explorer ↓",
+    agentReady: "L'agent est prêt",
+    bookDemo: "Réserver une démo",
+  },
   footer: "© 2026 Enzo Cosnard — Fait avec Next.js & Three.js",
 };
 
@@ -255,6 +261,11 @@ const en: Translation = {
     emailArrives: "An email arrives",
     agentDrafts: "The agent drafts a reply",
     sent: "Sent in 5 seconds",
+  },
+  ui: {
+    scrollHint: "Scroll to explore ↓",
+    agentReady: "Agent ready",
+    bookDemo: "Book a demo",
   },
   footer: "© 2026 Enzo Cosnard — Built with Next.js & Three.js",
 };

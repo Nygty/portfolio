@@ -2,6 +2,10 @@ import SceneLoader from "@/components/three/SceneLoader";
 import OutlookScene from "@/components/simulation/OutlookScene";
 import OutlookSceneMobile from "@/components/simulation/OutlookSceneMobile";
 import Caption from "@/components/ui/Caption";
+import ScrollHint from "@/components/ui/ScrollHint";
+import ProgressBar from "@/components/ui/ProgressBar";
+import CustomCursor from "@/components/ui/CustomCursor";
+import ScreenEasterEgg from "@/components/ui/ScreenEasterEgg";
 import Hero from "@/components/sections/Hero";
 import Agent from "@/components/sections/Agent";
 import HowItWorks from "@/components/sections/HowItWorks";
@@ -24,6 +28,10 @@ export default async function Home({
       <SceneLoader />
       <OutlookScene />
       <Caption locale={locale} />
+      <ScrollHint locale={locale} />
+      <ProgressBar />
+      <CustomCursor />
+      <ScreenEasterEgg locale={locale} />
       <Hero t={t} />
       <Agent t={t} />
       <HowItWorks t={t} />

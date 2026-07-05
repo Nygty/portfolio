@@ -4,6 +4,7 @@ import { useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { WireBox, GlowPlane, WireCylinder } from "./primitives";
+import { screenHover } from "@/lib/screen-hover";
 
 // Le poste de travail de la réception, enrichi : écran qui respire,
 // clavier, lampe de bureau chaude, tasse, stylo, post-it "MEMO" qui pulse
@@ -17,11 +18,16 @@ const WARM_WHITE = "#f0e0c0";
 export default function LobbyProps() {
   const screenMat = useRef<THREE.MeshBasicMaterial>(null);
   const postItMat = useRef<THREE.MeshBasicMaterial>(null);
+  const boost = useRef(0);
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
+    // easter egg : au survol de l'écran, la pulsation s'intensifie
+    boost.current += (screenHover.boost - boost.current) * 0.08;
+    const b = boost.current;
     if (screenMat.current) {
-      screenMat.current.opacity = 0.8 + Math.sin(t * 2.2) * 0.2;
+      screenMat.current.opacity =
+        0.8 + b * 0.12 + Math.sin(t * (2.2 + b * 2.5)) * (0.2 + b * 0.08);
     }
     if (postItMat.current) {
       postItMat.current.opacity = 0.55 + Math.sin(t * 1.1) * 0.07;

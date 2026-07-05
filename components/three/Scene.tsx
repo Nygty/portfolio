@@ -16,7 +16,24 @@ import Environment from "./Environment";
 import Hotel from "./Hotel";
 import { sceneState } from "@/lib/scroll-timeline";
 import { cinematicLength } from "@/lib/use-scroll-state";
+import { screenHover } from "@/lib/screen-hover";
 import { useIsMobile, usePrefersReducedMotion } from "@/lib/use-media";
+
+// Sonde : projette chaque frame la position 3D de l'écran du hall
+// (monde : 0, -1.08, -4.6) en pixels fenêtre, pour l'easter egg HTML.
+function ScreenProbe() {
+  const world = useRef(new THREE.Vector3());
+
+  useFrame(({ camera, size }) => {
+    world.current.set(0, -1.08, -4.6);
+    world.current.project(camera);
+    const p = Math.min(1, Math.max(0, window.scrollY / cinematicLength()));
+    screenHover.inPhase = p > 0.14 && p < 0.42 && world.current.z < 1;
+    screenHover.x = (world.current.x * 0.5 + 0.5) * size.width;
+    screenHover.y = (-world.current.y * 0.5 + 0.5) * size.height;
+  });
+  return null;
+}
 
 // Profondeur de champ cinématographique : discrète en temps normal,
 // elle s'intensifie pendant le zoom vers l'écran (28-50% du scroll)
@@ -105,6 +122,7 @@ export default function Scene() {
         gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       >
         <CameraRig frozen={reducedMotion} />
+        {!isMobile && <ScreenProbe />}
         <Environment showGrid={!isMobile} />
         <Hotel />
         {/* Post-processing cinéma — desktop uniquement.
