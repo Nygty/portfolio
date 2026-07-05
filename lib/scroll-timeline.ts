@@ -34,20 +34,37 @@ export function buildScrollTimeline(): gsap.core.Timeline | null {
   tl.to(sceneState, { x: 1.6, cameraZ: 3.7, duration: 100 }, 0);
   // Agent : léger drift vers le haut, le noyau grossit doucement
   tl.to(sceneState, { y: 0.35, scale: 1.08, duration: 150 }, 100);
-  // Comment ça marche : passage à gauche, rotation accélérée
-  // (la fragmentation en 3 groupes remplacera ceci à l'étape 5)
+  // Comment ça marche : retour au centre, la caméra recule,
+  // et le noyau ÉCLATE en 3 groupes — un par carte
   tl.to(
     sceneState,
-    { x: -1.4, y: 0, scale: 1.15, spin: 0.4, duration: 200 },
+    {
+      x: 0,
+      y: 0.15,
+      scale: 1,
+      spin: 0.05,
+      cameraZ: 4.9,
+      fragmentation: 1,
+      duration: 130,
+      ease: "power2.inOut",
+    },
     250
   );
-  // Cas client : retour au centre, calme
+  // (380 → 450 : les 3 groupes restent en place pendant la lecture des cartes)
+  // Cas client : reformation du noyau au centre
   tl.to(
     sceneState,
-    { x: 0, scale: 1, spin: 0.12, cameraZ: 4.2, duration: 100 },
+    {
+      fragmentation: 0,
+      y: 0,
+      spin: 0.12,
+      cameraZ: 4.2,
+      duration: 100,
+      ease: "power2.inOut",
+    },
     450
   );
-  // À propos : le noyau recule en arrière-plan
+  // À propos : le noyau recule en arrière-plan, mangé par le fog
   tl.to(sceneState, { z: -2.5, y: 0.4, duration: 100 }, 550);
   // Tarifs : il remonte, discret, derrière les cartes
   tl.to(sceneState, { z: -0.8, y: -0.7, x: 0, duration: 150 }, 650);
