@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
 
 type RevealProps = {
@@ -19,6 +19,12 @@ export default function Reveal({
   delay = 0,
   className,
 }: RevealProps) {
+  // Réglage système "réduire les animations" : contenu affiché directement
+  const reducedMotion = useReducedMotion();
+  if (reducedMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <motion.div
       className={className}

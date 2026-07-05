@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { animate, useInView } from "framer-motion";
+import { animate, useInView, useReducedMotion } from "framer-motion";
 
 type CounterProps = {
   value: number;
@@ -19,17 +19,23 @@ export default function Counter({
 }: CounterProps) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-20% 0px" });
+  const reducedMotion = useReducedMotion();
   const [display, setDisplay] = useState(0);
 
   useEffect(() => {
     if (!inView) return;
+    // Réglage "réduire les animations" : valeur affichée directement
+    if (reducedMotion) {
+      setDisplay(value);
+      return;
+    }
     const controls = animate(0, value, {
       duration: 1.6,
       ease: "easeOut",
       onUpdate: (v) => setDisplay(Math.round(v)),
     });
     return () => controls.stop();
-  }, [inView, value]);
+  }, [inView, value, reducedMotion]);
 
   return (
     <div ref={ref} className="text-center">

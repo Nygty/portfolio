@@ -18,8 +18,8 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section id="comment" className="relative min-h-[200vh] px-6">
-      <div className="mx-auto flex min-h-screen max-w-6xl flex-col justify-center">
+    <section id="comment" className="relative min-h-screen px-6 md:min-h-[200vh]">
+      <div className="mx-auto flex min-h-screen max-w-6xl flex-col justify-center py-20">
         <Reveal>
           <h2 className="text-center font-heading text-4xl font-bold tracking-tight sm:text-5xl">
             En 3 étapes

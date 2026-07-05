@@ -6,13 +6,21 @@ import "lenis/dist/lenis.css";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { buildScrollTimeline } from "@/lib/scroll-timeline";
+import { useIsMobile, usePrefersReducedMotion } from "@/lib/use-media";
 
 gsap.registerPlugin(ScrollTrigger);
 
 // Enveloppe le site : active le smooth scroll Lenis, le synchronise avec
 // GSAP ScrollTrigger, et démarre la timeline maître qui pilote la 3D.
+// - prefers-reduced-motion : scroll 100% natif, aucune timeline.
+// - Mobile : Lenis reste (agréable), mais pas de chorégraphie 3D au scroll.
 export default function SmoothScroll({ children }: { children: ReactNode }) {
+  const isMobile = useIsMobile();
+  const reducedMotion = usePrefersReducedMotion();
+
   useEffect(() => {
+    if (reducedMotion) return;
+
     const lenis = new Lenis({ duration: 1.1 });
 
     // Lenis pilote le scroll → on tient ScrollTrigger informé,
@@ -33,7 +41,7 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     };
     document.addEventListener("click", onClick);
 
-    const timeline = buildScrollTimeline();
+    const timeline = isMobile ? null : buildScrollTimeline();
 
     return () => {
       document.removeEventListener("click", onClick);
@@ -42,7 +50,7 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
       gsap.ticker.remove(tick);
       lenis.destroy();
     };
-  }, []);
+  }, [isMobile, reducedMotion]);
 
   return <>{children}</>;
 }

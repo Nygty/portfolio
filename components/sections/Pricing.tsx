@@ -52,8 +52,8 @@ export default function Pricing() {
     "w-full rounded-xl border border-accent/15 bg-surface/80 px-5 py-3 text-text placeholder:text-muted outline-none backdrop-blur-sm transition-colors focus:border-accent/60";
 
   return (
-    <section id="tarifs" className="relative min-h-[150vh] px-6 pb-10">
-      <div className="mx-auto flex min-h-screen max-w-6xl flex-col justify-center">
+    <section id="tarifs" className="relative min-h-screen px-6 pb-10 md:min-h-[150vh]">
+      <div className="mx-auto flex min-h-screen max-w-6xl flex-col justify-center py-20">
         <Reveal>
           <h2 className="text-center font-heading text-4xl font-bold tracking-tight sm:text-5xl">
             3 formules. Pas de surprise.

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { sceneState } from "@/lib/scroll-timeline";
@@ -12,6 +12,7 @@ import { sceneState } from "@/lib/scroll-timeline";
 //   (un par carte de la section "En 3 étapes"), puis se reforment.
 
 const PARTICLE_COUNT = 4000;
+const PARTICLE_COUNT_MOBILE = 1200;
 const RADIUS = 1.3;
 
 // Centres des 3 groupes une fois le noyau fragmenté (alignés sur les 3 cartes)
@@ -26,7 +27,18 @@ const ACCENT = new THREE.Color("#4a9eff");
 const ACCENT_HOT = new THREE.Color("#7c5cff");
 const TWO_PI = Math.PI * 2;
 
-export default function Signature() {
+type SignatureProps = {
+  /** Mobile : moins de particules, noyau réduit centré, pas de chorégraphie scroll. */
+  simple?: boolean;
+  /** prefers-reduced-motion : aucune animation, pose figée. */
+  frozen?: boolean;
+};
+
+export default function Signature({
+  simple = false,
+  frozen = false,
+}: SignatureProps) {
+  const count = simple ? PARTICLE_COUNT_MOBILE : PARTICLE_COUNT;
   const group = useRef<THREE.Group>(null);
   const inner = useRef<THREE.Group>(null);
   const core = useRef<THREE.Group>(null);
@@ -42,12 +54,12 @@ export default function Signature() {
   // - fragmented : sa position cible dans son groupe (1 particule sur 3 par groupe)
   // - current : copie de travail affichée à l'écran (mutée à chaque frame de morph)
   const { sphere, fragmented, current, colors } = useMemo(() => {
-    const sphere = new Float32Array(PARTICLE_COUNT * 3);
-    const fragmented = new Float32Array(PARTICLE_COUNT * 3);
-    const colors = new Float32Array(PARTICLE_COUNT * 3);
+    const sphere = new Float32Array(count * 3);
+    const fragmented = new Float32Array(count * 3);
+    const colors = new Float32Array(count * 3);
     const color = new THREE.Color();
 
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
+    for (let i = 0; i < count; i++) {
       // Point aléatoire sur la sphère, léger relief organique
       const theta = TWO_PI * Math.random();
       const phi = Math.acos(2 * Math.random() - 1);
@@ -73,10 +85,34 @@ export default function Signature() {
       colors[i * 3 + 2] = color.b;
     }
     return { sphere, fragmented, current: sphere.slice(), colors };
-  }, []);
+  }, [count]);
+
+  // Géométrie reconstruite (passage desktop ↔ mobile) : le morph doit
+  // être recalculé au prochain frame
+  useEffect(() => {
+    lastFragmentation.current = -1;
+  }, [count]);
 
   useFrame(({ clock }, delta) => {
+    // Reduced motion : pose figée, rien ne bouge
+    if (frozen) return;
+
     const t = clock.getElapsedTime();
+
+    // Mobile : simple rotation + respiration, noyau réduit et centré,
+    // pas de scroll-3D
+    if (simple) {
+      const breath = 1 + Math.sin(t * 0.7) * 0.035;
+      if (group.current) {
+        group.current.scale.setScalar(0.72 * breath);
+        group.current.position.set(0, 0, 0);
+      }
+      if (inner.current) inner.current.rotation.y += delta * 0.12;
+      if (ringA.current) ringA.current.rotation.y += delta * 0.25;
+      if (ringB.current) ringB.current.rotation.y -= delta * 0.18;
+      return;
+    }
+
     const f = sceneState.fragmentation;
 
     if (group.current) {
@@ -123,13 +159,15 @@ export default function Signature() {
   return (
     <group ref={group}>
       <group ref={inner}>
-        <points>
+        {/* key={count} : reconstruit proprement la géométrie si on passe
+            de la version desktop à la version mobile (ou l'inverse) */}
+        <points key={count}>
           <bufferGeometry ref={geometry}>
             <bufferAttribute attach="attributes-position" args={[current, 3]} />
             <bufferAttribute attach="attributes-color" args={[colors, 3]} />
           </bufferGeometry>
           <pointsMaterial
-            size={0.022}
+            size={simple ? 0.028 : 0.022}
             vertexColors
             transparent
             opacity={0.9}

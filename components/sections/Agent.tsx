@@ -8,7 +8,7 @@ const points = [
 
 export default function Agent() {
   return (
-    <section id="agent" className="relative min-h-[150vh] px-6">
+    <section id="agent" className="relative min-h-screen px-6 md:min-h-[150vh]">
       <div className="mx-auto flex min-h-screen max-w-5xl flex-col justify-center">
         <Reveal>
           <h2 className="max-w-3xl font-heading text-4xl font-bold tracking-tight sm:text-5xl">

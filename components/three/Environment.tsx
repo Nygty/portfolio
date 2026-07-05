@@ -5,7 +5,8 @@ import { Grid } from "@react-three/drei";
 // Ambiance de la scène : brouillard assorti au fond du site, lumières,
 // et grille en perspective infinie sous le noyau (cyberspace discret —
 // couleurs volontairement très sombres, le fog mange l'horizon).
-export default function Environment() {
+// showGrid={false} sur mobile : la grille est ce qui coûte le plus à dessiner.
+export default function Environment({ showGrid = true }: { showGrid?: boolean }) {
   return (
     <>
       <fog attach="fog" args={["#05060a", 6, 14]} />
@@ -13,7 +14,7 @@ export default function Environment() {
       <pointLight position={[4, 3, 4]} intensity={12} color="#4a9eff" />
       <pointLight position={[-4, -2, -4]} intensity={8} color="#7c5cff" />
 
-      <Grid
+      {showGrid && <Grid
         position={[0, -2.4, 0]}
         infiniteGrid
         cellSize={0.7}
@@ -24,7 +25,7 @@ export default function Environment() {
         sectionColor="#23406b"
         fadeDistance={28}
         fadeStrength={2.5}
-      />
+      />}
     </>
   );
 }
