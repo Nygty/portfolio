@@ -1,6 +1,6 @@
 "use client";
 
-import { WireBox, GlowPlane } from "./primitives";
+import { WireBox, WireBoxes, GlowPlane, GlowQuads } from "./primitives";
 import LobbyFloor from "./LobbyFloor";
 import LobbyCeiling from "./LobbyCeiling";
 import LobbyProps from "./LobbyProps";
@@ -17,6 +17,39 @@ const D = 8;
 const H = 3.4;
 const AMBER = "#d4a574";
 
+// Structure statique fusionnée (colonnes, rythme du mur du fond, tapis)
+// → 1 seul draw call au lieu de 10
+const STRUCTURE_BOXES = [
+  ...[
+    [-2.8, -2],
+    [2.8, -2],
+    [-2.8, 2],
+    [2.8, 2],
+  ].map(([x, z]) => ({
+    size: [0.18, H, 0.18] as [number, number, number],
+    position: [x, H / 2, z] as [number, number, number],
+  })),
+  ...[-3.2, -1.6, 1.6, 3.2].map((x) => ({
+    size: [0.02, H, 0.02] as [number, number, number],
+    position: [x, H / 2, -D / 2 + 0.02] as [number, number, number],
+  })),
+  { size: [3, 0.004, 2] as [number, number, number], position: [0, 0.02, 0.6] as [number, number, number] },
+  { size: [2.4, 0.003, 1.5] as [number, number, number], position: [0, 0.018, 0.6] as [number, number, number] },
+];
+
+// Casier à clés : cases fusionnées par couleur → 2 draw calls au lieu de 12
+const KEY_QUADS = Array.from({ length: 12 }, (_, i) => ({
+  index: i,
+  position: [
+    -0.45 + (i % 4) * 0.3,
+    1.66 - Math.floor(i / 4) * 0.21,
+    -D / 2 + 0.08,
+  ] as [number, number, number],
+  size: [0.09, 0.09] as [number, number],
+}));
+const KEY_LIT = KEY_QUADS.filter((q) => q.index % 5 === 0);
+const KEY_DARK = KEY_QUADS.filter((q) => q.index % 5 !== 0);
+
 export default function Lobby() {
   return (
     <group position={[0, 0, -3.5]}>
@@ -28,20 +61,8 @@ export default function Lobby() {
       <LobbyProps />
       <LobbyDecor />
 
-      {/* Colonnes */}
-      {[
-        [-2.8, -2],
-        [2.8, -2],
-        [-2.8, 2],
-        [2.8, 2],
-      ].map(([x, z]) => (
-        <WireBox
-          key={`${x}-${z}`}
-          size={[0.18, H, 0.18]}
-          position={[x, H / 2, z]}
-          opacity={0.45}
-        />
-      ))}
+      {/* Colonnes + rythme mural + tapis : structure fusionnée */}
+      <WireBoxes boxes={STRUCTURE_BOXES} opacity={0.4} />
 
       {/* Chemin lumineux au sol, de la porte vers le comptoir */}
       <GlowPlane
@@ -89,15 +110,7 @@ export default function Lobby() {
         />
       ))}
 
-      {/* Mur du fond : rythme vertical + œuvre lumineuse */}
-      {[-3.2, -1.6, 1.6, 3.2].map((x) => (
-        <WireBox
-          key={`wall-${x}`}
-          size={[0.02, H, 0.02]}
-          position={[x, H / 2, -D / 2 + 0.02]}
-          opacity={0.35}
-        />
-      ))}
+      {/* Œuvre lumineuse du mur du fond */}
       <GlowPlane
         size={[2.8, 0.07]}
         color="#7c5cff"
@@ -117,27 +130,8 @@ export default function Lobby() {
         position={[0, 1.45, -D / 2 + 0.05]}
         opacity={0.6}
       />
-      {Array.from({ length: 12 }, (_, i) => {
-        const col = i % 4;
-        const row = Math.floor(i / 4);
-        return (
-          <GlowPlane
-            key={`key-${i}`}
-            size={[0.09, 0.09]}
-            color={i % 5 === 0 ? "#a8d2ff" : "#22314d"}
-            opacity={0.85}
-            position={[-0.45 + col * 0.3, 1.66 - row * 0.21, -D / 2 + 0.08]}
-          />
-        );
-      })}
-
-      {/* Tapis devant le comptoir */}
-      <WireBox size={[3, 0.004, 2]} position={[0, 0.02, 0.6]} opacity={0.35} />
-      <WireBox
-        size={[2.4, 0.003, 1.5]}
-        position={[0, 0.018, 0.6]}
-        opacity={0.2}
-      />
+      <GlowQuads quads={KEY_LIT} color="#a8d2ff" opacity={0.85} />
+      <GlowQuads quads={KEY_DARK} color="#22314d" opacity={0.85} />
 
       {/* Coin salon : deux fauteuils + table basse lumineuse */}
       {[1.1, -0.1].map((z) => (

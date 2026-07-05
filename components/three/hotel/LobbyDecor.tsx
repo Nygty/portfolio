@@ -3,7 +3,7 @@
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
-import { WireBox, GlowPlane, WireCylinder } from "./primitives";
+import { WireBox, WireBoxes, GlowPlane, WireCylinder } from "./primitives";
 
 // Décor du hall : murs latéraux rythmés, miroirs muraux, horloge à
 // l'heure réelle du navigateur, plantes stylisées, canapé d'accueil,
@@ -50,6 +50,7 @@ function ArtDecoFan({
 function WallClock({ position }: { position: [number, number, number] }) {
   const hourHand = useRef<THREE.Group>(null);
   const minuteHand = useRef<THREE.Group>(null);
+  const frame = useRef(0);
 
   const faceGeometry = useMemo(() => {
     const points: number[] = [];
@@ -84,6 +85,9 @@ function WallClock({ position }: { position: [number, number, number] }) {
   }, []);
 
   useFrame(() => {
+    // les aiguilles n'ont pas besoin de 60 mises à jour/seconde
+    frame.current = (frame.current + 1) % 30;
+    if (frame.current !== 0) return;
     const now = new Date();
     const minutes = now.getMinutes() + now.getSeconds() / 60;
     const hours = (now.getHours() % 12) + minutes / 60;
@@ -123,17 +127,20 @@ function WallClock({ position }: { position: [number, number, number] }) {
 export default function LobbyDecor() {
   return (
     <group>
-      {/* Cadres verticaux des murs latéraux */}
-      {[-1, 1].flatMap((side) =>
-        [-2.4, -0.8, 0.8, 2.4].map((z) => (
-          <WireBox
-            key={`${side}-${z}`}
-            size={[0.02, H, 0.02]}
-            position={[side * (W / 2 - 0.03), H / 2, z]}
-            opacity={0.3}
-          />
-        ))
-      )}
+      {/* Cadres verticaux des murs latéraux (fusionnés : 1 draw call) */}
+      <WireBoxes
+        boxes={[-1, 1].flatMap((side) =>
+          [-2.4, -0.8, 0.8, 2.4].map((z) => ({
+            size: [0.02, H, 0.02] as [number, number, number],
+            position: [side * (W / 2 - 0.03), H / 2, z] as [
+              number,
+              number,
+              number,
+            ],
+          }))
+        )}
+        opacity={0.3}
+      />
 
       {/* Miroirs muraux : cadre filaire + panneau légèrement lumineux */}
       {[

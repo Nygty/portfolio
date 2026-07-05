@@ -16,6 +16,7 @@ const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 export default function DustParticles() {
   const points = useRef<THREE.Points>(null);
   const material = useRef<THREE.PointsMaterial>(null);
+  const frame = useRef(0);
 
   const { base, speeds, phases, positions } = useMemo(() => {
     const base = new Float32Array(COUNT * 3);
@@ -32,6 +33,10 @@ export default function DustParticles() {
   }, []);
 
   useFrame(({ clock }) => {
+    // dérive très lente : 1 mise à jour sur 2 suffit
+    frame.current = (frame.current + 1) % 2;
+    if (frame.current !== 0) return;
+
     const t = clock.getElapsedTime();
 
     if (points.current) {

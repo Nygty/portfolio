@@ -49,13 +49,12 @@ function FadingFacade() {
 
 // L'hôtel complet, posé sur la grille du sol (y = -2.4).
 // La caméra voyage de la façade vers le hall au fil du scroll.
-export default function Hotel() {
-  const isMobile = useIsMobile();
+export default function Hotel({ dust = true }: { dust?: boolean }) {
   return (
     <group position={[0, -2.4, 0]}>
       <FadingFacade />
       <Lobby />
-      {!isMobile && <DustParticles />}
+      {dust && <DustParticles />}
     </group>
   );
 }
