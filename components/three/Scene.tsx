@@ -77,9 +77,9 @@ export default function Scene() {
         {!isMobile && (
           <EffectComposer multisampling={0}>
             <Bloom
-              intensity={0.65}
-              luminanceThreshold={0.3}
-              luminanceSmoothing={0.65}
+              intensity={0.55}
+              luminanceThreshold={0.24}
+              luminanceSmoothing={0.7}
               mipmapBlur
             />
           </EffectComposer>

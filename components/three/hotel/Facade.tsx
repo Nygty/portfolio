@@ -38,14 +38,26 @@ function frontWindowX(col: number) {
 
 export default function Facade() {
   const pulsingMat = useRef<THREE.MeshBasicMaterial>(null);
+  const antennaMat = useRef<THREE.MeshBasicMaterial>(null);
 
   useFrame(({ clock }) => {
-    if (!pulsingMat.current) return;
-    // skipFade : ce matériau gère lui-même le fade de la façade
-    pulsingMat.current.userData.skipFade = true;
     const t = clock.getElapsedTime();
-    pulsingMat.current.opacity =
-      (0.75 + Math.sin(t * 1.6) * 0.25) * sceneState.facadeOpacity;
+    const fade = sceneState.facadeOpacity;
+
+    if (pulsingMat.current) {
+      // skipFade : ce matériau gère lui-même le fade de la façade
+      pulsingMat.current.userData.skipFade = true;
+      pulsingMat.current.opacity = (0.75 + Math.sin(t * 1.6) * 0.25) * fade;
+    }
+
+    if (antennaMat.current) {
+      // Feu d'antenne : 2s allumé / 2s éteint, atténué (il ne doit pas
+      // voler la vedette), transition adoucie
+      antennaMat.current.userData.skipFade = true;
+      const on = t % 4 < 2 ? 0.45 : 0.06;
+      antennaMat.current.opacity +=
+        (on * fade - antennaMat.current.opacity) * 0.12;
+    }
   });
 
   const frontWindows: React.ReactNode[] = [];
@@ -240,12 +252,16 @@ export default function Facade() {
         position={[1.5, HEIGHT + 0.45, 0.6]}
         opacity={0.7}
       />
-      <GlowPlane
-        size={[0.06, 0.06]}
-        color="#ff6b6b"
-        opacity={0.9}
-        position={[1.5, HEIGHT + 0.93, 0.6]}
-      />
+      <mesh position={[1.5, HEIGHT + 0.93, 0.6]}>
+        <planeGeometry args={[0.06, 0.06]} />
+        <meshBasicMaterial
+          ref={antennaMat}
+          color="#ff6b6b"
+          transparent
+          opacity={0.45}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
     </group>
   );
 }
