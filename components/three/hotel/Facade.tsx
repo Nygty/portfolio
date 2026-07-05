@@ -119,8 +119,9 @@ function NeonSign({ text, dim }: { text: string; dim: number }) {
 }
 
 export default function Facade({ reflection = false }: { reflection?: boolean }) {
-  // Le reflet est une copie à 16% d'opacité : tout passe par ce facteur
-  const dim = reflection ? 0.16 : 1;
+  // Le reflet est une copie très atténuée : tout passe par ce facteur
+  // (0.22 : effet marbre poli accentué, demandé par la mission full-upgrade)
+  const dim = reflection ? 0.22 : 1;
   const o = (v: number) => v * dim;
 
   const pulsingMats = useRef<(THREE.MeshBasicMaterial | null)[]>([]);

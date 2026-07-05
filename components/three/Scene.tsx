@@ -1,13 +1,45 @@
 "use client";
 
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { EffectComposer, Bloom } from "@react-three/postprocessing";
+import {
+  EffectComposer,
+  Bloom,
+  DepthOfField,
+  ChromaticAberration,
+  Noise,
+  Vignette,
+} from "@react-three/postprocessing";
+import type { DepthOfFieldEffect } from "postprocessing";
 import Environment from "./Environment";
 import Hotel from "./Hotel";
 import { sceneState } from "@/lib/scroll-timeline";
+import { cinematicLength } from "@/lib/use-scroll-state";
 import { useIsMobile, usePrefersReducedMotion } from "@/lib/use-media";
+
+// Profondeur de champ cinématographique : discrète en temps normal,
+// elle s'intensifie pendant le zoom vers l'écran (28-50% du scroll)
+// pour guider optiquement le regard.
+function CinematicDoF() {
+  const dof = useRef<DepthOfFieldEffect>(null);
+
+  useFrame(() => {
+    if (!dof.current) return;
+    const p = Math.min(1, Math.max(0, window.scrollY / cinematicLength()));
+    const target = p > 0.28 && p < 0.5 ? 3 : 0.6;
+    dof.current.bokehScale += (target - dof.current.bokehScale) * 0.05;
+  });
+
+  return (
+    <DepthOfField
+      ref={dof}
+      focusDistance={0.012}
+      focalLength={0.06}
+      bokehScale={0.6}
+    />
+  );
+}
 
 // Caméra sur rails : suit sceneState (piloté par GSAP au scroll) avec un
 // lissage doux, plus un balancement orbital résiduel autour du point regardé
@@ -54,6 +86,8 @@ function CameraRig({ frozen }: { frozen: boolean }) {
 export default function Scene() {
   const isMobile = useIsMobile();
   const reducedMotion = usePrefersReducedMotion();
+  // aberration chromatique : décalage RGB très léger sur les bords
+  const caOffset = useMemo(() => new THREE.Vector2(0.0015, 0.0015), []);
 
   return (
     // Mobile : façade légèrement floutée et atténuée — fond d'ambiance,
@@ -73,15 +107,21 @@ export default function Scene() {
         <CameraRig frozen={reducedMotion} />
         <Environment showGrid={!isMobile} />
         <Hotel />
-        {/* Bloom : le glow des zones émissives — desktop uniquement */}
+        {/* Post-processing cinéma — desktop uniquement.
+            Ordre de dégradation si perf < 65 : ChromaticAberration,
+            puis Noise, puis DepthOfField. Bloom + Vignette restent. */}
         {!isMobile && (
           <EffectComposer multisampling={0}>
+            <CinematicDoF />
             <Bloom
               intensity={0.55}
               luminanceThreshold={0.24}
               luminanceSmoothing={0.7}
               mipmapBlur
             />
+            <ChromaticAberration offset={caOffset} />
+            <Noise premultiply opacity={0.025} />
+            <Vignette eskil={false} offset={0.28} darkness={0.65} />
           </EffectComposer>
         )}
       </Canvas>
