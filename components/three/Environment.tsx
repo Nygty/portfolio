@@ -9,7 +9,8 @@ import { Grid } from "@react-three/drei";
 export default function Environment({ showGrid = true }: { showGrid?: boolean }) {
   return (
     <>
-      <fog attach="fog" args={["#05060a", 6, 14]} />
+      {/* Caméra désormais à ~10 unités de la façade : le fog démarre plus loin */}
+      <fog attach="fog" args={["#05060a", 9, 30]} />
       <ambientLight intensity={0.4} />
       <pointLight position={[4, 3, 4]} intensity={12} color="#4a9eff" />
       <pointLight position={[-4, -2, -4]} intensity={8} color="#7c5cff" />
