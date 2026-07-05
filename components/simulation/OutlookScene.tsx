@@ -3,6 +3,7 @@
 import LoginWindow from "./LoginWindow";
 import Inbox from "./Inbox";
 import EmailDetail from "./EmailDetail";
+import AIPanel from "./AIPanel";
 import { useScrollState } from "@/lib/use-scroll-state";
 import { useIsMobile, usePrefersReducedMotion } from "@/lib/use-media";
 
@@ -42,6 +43,11 @@ export default function OutlookScene() {
   const arriveP = seg(p, 0.607, 0.627); // l'email de Sarah glisse
   const openP = seg(p, 0.632, 0.648); // clic simulé sur la ligne
   const detailP = seg(p, 0.644, 0.664); // vue détaillée en fondu
+
+  // Chorégraphie de la phase "ai" (65 → 80%)
+  const aiSlideP = seg(p, 0.652, 0.672); // le panneau IA s'ouvre
+  const thinkP = seg(p, 0.672, 0.72); // le blob réfléchit
+  const typeP = seg(p, 0.72, 0.79); // la réponse s'écrit
 
   const showLogin = p < 0.595;
   const showInbox = p >= 0.592 && detailP < 1;
@@ -88,8 +94,17 @@ export default function OutlookScene() {
                 </div>
               )}
               {showDetail && (
-                <div className="absolute inset-0 bg-[#1a1e27]">
-                  <EmailDetail p={detailP} />
+                <div className="absolute inset-0 flex bg-[#1a1e27]">
+                  <div className="min-w-0 flex-1">
+                    <EmailDetail p={detailP} />
+                  </div>
+                  {aiSlideP > 0 && (
+                    <AIPanel
+                      slideP={aiSlideP}
+                      thinkP={thinkP}
+                      typeP={typeP}
+                    />
+                  )}
                 </div>
               )}
             </div>
