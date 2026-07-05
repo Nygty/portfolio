@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Documents de travail internes (jamais dans le repo public)
+mission*.md
+references/
