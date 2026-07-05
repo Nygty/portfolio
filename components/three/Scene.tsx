@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import Environment from "./Environment";
 import Hotel from "./Hotel";
 import { sceneState } from "@/lib/scroll-timeline";
@@ -72,6 +73,17 @@ export default function Scene() {
         <CameraRig frozen={reducedMotion} />
         <Environment showGrid={!isMobile} />
         <Hotel />
+        {/* Bloom : le glow des zones émissives — desktop uniquement */}
+        {!isMobile && (
+          <EffectComposer multisampling={0}>
+            <Bloom
+              intensity={0.65}
+              luminanceThreshold={0.3}
+              luminanceSmoothing={0.65}
+              mipmapBlur
+            />
+          </EffectComposer>
+        )}
       </Canvas>
     </div>
   );

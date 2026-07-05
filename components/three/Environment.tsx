@@ -9,6 +9,9 @@ import { Grid } from "@react-three/drei";
 export default function Environment({ showGrid = true }: { showGrid?: boolean }) {
   return (
     <>
+      {/* Fond explicite (même couleur que le site) : requis pour que le
+          post-processing Bloom compose proprement, sans transparence */}
+      <color attach="background" args={["#05060a"]} />
       {/* Caméra désormais à ~10 unités de la façade : le fog démarre plus loin */}
       <fog attach="fog" args={["#05060a", 9, 30]} />
       <ambientLight intensity={0.4} />

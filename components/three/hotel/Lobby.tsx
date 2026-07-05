@@ -104,6 +104,100 @@ export default function Lobby() {
           position={[x, H - 0.5, 1]}
         />
       ))}
+
+      {/* Mur du fond : rythme vertical + œuvre lumineuse */}
+      {[-3.2, -1.6, 1.6, 3.2].map((x) => (
+        <WireBox
+          key={`wall-${x}`}
+          size={[0.02, H, 0.02]}
+          position={[x, H / 2, -D / 2 + 0.02]}
+          opacity={0.35}
+        />
+      ))}
+      <GlowPlane
+        size={[2.8, 0.07]}
+        color="#7c5cff"
+        opacity={0.6}
+        position={[0, 2.3, -D / 2 + 0.03]}
+      />
+      <GlowPlane
+        size={[2.2, 0.05]}
+        color="#4a9eff"
+        opacity={0.45}
+        position={[0, 2.12, -D / 2 + 0.03]}
+      />
+
+      {/* Casier à clés derrière le comptoir */}
+      <WireBox
+        size={[1.3, 0.7, 0.04]}
+        position={[0, 1.45, -D / 2 + 0.05]}
+        opacity={0.6}
+      />
+      {Array.from({ length: 12 }, (_, i) => {
+        const col = i % 4;
+        const row = Math.floor(i / 4);
+        return (
+          <GlowPlane
+            key={`key-${i}`}
+            size={[0.09, 0.09]}
+            color={i % 5 === 0 ? "#a8d2ff" : "#22314d"}
+            opacity={0.85}
+            position={[-0.45 + col * 0.3, 1.66 - row * 0.21, -D / 2 + 0.08]}
+          />
+        );
+      })}
+
+      {/* Tapis devant le comptoir */}
+      <WireBox
+        size={[3, 0.004, 2]}
+        position={[0, 0.012, 0.6]}
+        opacity={0.35}
+      />
+      <WireBox
+        size={[2.4, 0.003, 1.5]}
+        position={[0, 0.01, 0.6]}
+        opacity={0.2}
+      />
+
+      {/* Coin salon : deux fauteuils + table basse lumineuse */}
+      {[1.1, -0.1].map((z) => (
+        <group key={`chair-${z}`} position={[-3.1, 0, z]}>
+          <WireBox size={[0.55, 0.35, 0.55]} position={[0, 0.175, 0]} opacity={0.6} />
+          <WireBox
+            size={[0.08, 0.5, 0.55]}
+            position={[-0.24, 0.55, 0]}
+            opacity={0.6}
+          />
+        </group>
+      ))}
+      <WireBox
+        size={[0.7, 0.28, 0.7]}
+        position={[-2.2, 0.14, 0.5]}
+        opacity={0.6}
+      />
+      <GlowPlane
+        size={[0.6, 0.6]}
+        color="#4a9eff"
+        opacity={0.18}
+        position={[-2.2, 0.285, 0.5]}
+        rotation={[-Math.PI / 2, 0, 0]}
+      />
+
+      {/* Appliques sur les colonnes */}
+      {[
+        [-2.8, -2],
+        [2.8, -2],
+        [-2.8, 2],
+        [2.8, 2],
+      ].map(([x, z]) => (
+        <GlowPlane
+          key={`sconce-${x}-${z}`}
+          size={[0.08, 0.28]}
+          color="#a8d2ff"
+          opacity={0.7}
+          position={[x, 2.25, z + 0.11]}
+        />
+      ))}
     </group>
   );
 }
