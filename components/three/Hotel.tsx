@@ -6,6 +6,7 @@ import { useFrame } from "@react-three/fiber";
 import Facade from "./hotel/Facade";
 import Lobby from "./hotel/Lobby";
 import { sceneState } from "@/lib/scroll-timeline";
+import { useIsMobile } from "@/lib/use-media";
 
 // La façade s'estompe quand la caméra la traverse (sceneState.facadeOpacity).
 // Chaque matériau garde son opacité d'origine en mémoire (userData) et est
@@ -14,6 +15,7 @@ import { sceneState } from "@/lib/scroll-timeline";
 function FadingFacade() {
   const group = useRef<THREE.Group>(null);
   const applied = useRef(-1);
+  const isMobile = useIsMobile();
 
   useFrame(() => {
     const f = sceneState.facadeOpacity;
@@ -33,6 +35,13 @@ function FadingFacade() {
   return (
     <group ref={group}>
       <Facade />
+      {/* Sol miroir : le bâtiment inversé sous le sol, très atténué —
+          effet marbre poli. Desktop uniquement (coût de rendu doublé). */}
+      {!isMobile && (
+        <group scale={[1, -1, 1]}>
+          <Facade reflection />
+        </group>
+      )}
     </group>
   );
 }
