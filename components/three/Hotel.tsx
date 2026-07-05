@@ -5,6 +5,7 @@ import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import Facade from "./hotel/Facade";
 import Lobby from "./hotel/Lobby";
+import DustParticles from "./DustParticles";
 import { sceneState } from "@/lib/scroll-timeline";
 import { useIsMobile } from "@/lib/use-media";
 
@@ -49,11 +50,12 @@ function FadingFacade() {
 // L'hôtel complet, posé sur la grille du sol (y = -2.4).
 // La caméra voyage de la façade vers le hall au fil du scroll.
 export default function Hotel() {
+  const isMobile = useIsMobile();
   return (
     <group position={[0, -2.4, 0]}>
       <FadingFacade />
       <Lobby />
-      {/* Zoom écran + simulation : étape 3 */}
+      {!isMobile && <DustParticles />}
     </group>
   );
 }
