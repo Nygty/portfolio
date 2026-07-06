@@ -44,9 +44,6 @@ const fr = {
     ],
   },
   caseStudy: {
-    eyebrow: "En production chez",
-    hotel: "Hôtel 5★ boutique — 13 chambres",
-    location: "Méditerranée",
     stats: [
       {
         value: 30,
@@ -194,9 +191,6 @@ const en: Translation = {
     ],
   },
   caseStudy: {
-    eyebrow: "Live at",
-    hotel: "5★ boutique hotel — 13 rooms",
-    location: "Mediterranean",
     stats: [
       {
         value: 30,
