@@ -6,9 +6,9 @@ export default function Agent({ t }: { t: Translation }) {
     <section id="agent" className="relative min-h-screen px-6 md:min-h-[150vh]">
       <div className="mx-auto flex min-h-screen max-w-5xl flex-col justify-center">
         <Reveal>
-          <h2 className="max-w-3xl font-heading text-4xl font-bold tracking-tight sm:text-5xl">
+          <h2 className="max-w-3xl font-serif text-4xl font-semibold tracking-tight sm:text-[3.4rem] sm:leading-[1.1]">
             {t.agent.titleStart}
-            <span className="text-accent">{t.agent.titleAccent}</span>
+            <span className="italic text-accent">{t.agent.titleAccent}</span>
           </h2>
         </Reveal>
         <ul className="mt-14 space-y-8">

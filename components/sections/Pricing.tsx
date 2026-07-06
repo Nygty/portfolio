@@ -24,7 +24,7 @@ export default function Pricing({ t }: { t: Translation }) {
     <section id="tarifs" className="relative min-h-screen px-6 pb-10 md:min-h-[150vh]">
       <div className="mx-auto flex min-h-screen max-w-6xl flex-col justify-center py-20">
         <Reveal>
-          <h2 className="text-center font-heading text-4xl font-bold tracking-tight sm:text-5xl">
+          <h2 className="text-center font-serif text-4xl font-semibold tracking-tight sm:text-5xl">
             {t.pricing.title}
           </h2>
         </Reveal>
@@ -58,7 +58,7 @@ export default function Pricing({ t }: { t: Translation }) {
 
       <div id="contact" className="mx-auto max-w-xl scroll-mt-24 pt-24">
         <Reveal>
-          <h2 className="text-center font-heading text-3xl font-bold tracking-tight sm:text-4xl">
+          <h2 className="text-center font-serif text-3xl font-semibold tracking-tight sm:text-4xl">
             {t.pricing.contactTitle}
           </h2>
         </Reveal>
@@ -100,7 +100,14 @@ export default function Pricing({ t }: { t: Translation }) {
       </div>
 
       <footer className="mt-28 border-t border-accent/10 pt-8 text-center text-sm text-muted">
-        {t.footer}
+        <p>{t.footer}</p>
+        {/* Touches signature (mission 0.8.D) : monogramme + version fait-main */}
+        <p className="mt-3 text-xs text-muted/60">
+          <span className="mr-2 inline-block -rotate-2 font-serif text-sm italic text-[#d4a574]/80">
+            EC
+          </span>
+          {t.footerVersion}
+        </p>
       </footer>
     </section>
   );

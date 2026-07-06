@@ -6,14 +6,14 @@ const fr = {
   meta: {
     title: "Enzo Cosnard — Agent Concierge IA pour hôtels boutique",
     description:
-      "L'agent IA qui répond aux emails de votre réception 24/7, dans toutes les langues, avec le ton de votre maison. Déjà en production dans un hôtel boutique 5★.",
+      "J'ai construit un agent IA qui répond aux emails de votre réception pendant que vous dormez — dans la langue du client, avec le ton de votre maison. Testé en conditions réelles dans un hôtel boutique 5★.",
   },
   hero: {
     eyebrow: "Enzo Cosnard — Agent concierge IA",
     titleStart: "Concierge IA pour ",
     titleAccent: "hôtels boutique",
     subtitle:
-      "L'agent qui répond à vos emails 24/7, dans toutes les langues, avec le ton de votre maison.",
+      "Vos clients reçoivent une réponse avant d'avoir fini leur café. Même à 3h du matin. Dans leur langue.",
     ctaPrimary: "Voir la démo",
     ctaSecondary: "Contact",
   },
@@ -21,21 +21,21 @@ const fr = {
     titleStart: "Un membre de plus dans votre équipe. ",
     titleAccent: "Sans le salaire.",
     bullets: [
-      "Lit chaque email entrant en < 2 secondes",
-      "Propose une réponse rédigée, prête à envoyer",
-      "Apprend le ton de votre réception au fil des semaines",
+      "Un email arrive à 3h du matin ? La réponse est prête à 3h01.",
+      "Il rédige, vous relisez, vous cliquez. C'est envoyé.",
+      "Il apprend le ton de votre maison semaine après semaine — et il ne bâille jamais.",
     ],
   },
   howItWorks: {
-    title: "En 3 étapes",
+    title: "Trois étapes. Pas une de plus.",
     steps: [
       {
         title: "Connexion",
-        text: "On branche l'agent à votre boîte mail (Outlook, Gmail) en 24h.",
+        text: "Je branche l'agent sur votre boîte mail — Outlook ou Gmail — en 10 minutes. Rien à installer.",
       },
       {
         title: "Écoute",
-        text: "L'agent lit vos emails et catégorise : résa, plainte, question, spam.",
+        text: "Il lit tout ce qui arrive et trie : réservation, plainte, question, spam.",
       },
       {
         title: "Réponse",
@@ -72,9 +72,9 @@ const fr = {
     name: "Enzo Cosnard",
     photoAlt: "Enzo Cosnard",
     lines: [
-      "20 ans, étudiant, actuellement en stage dans un hôtel boutique 5★ en Méditerranée.",
-      "Développe et vend un agent concierge IA pour hôtels boutique.",
-      "Basé en Europe, ouvert aux missions freelance et partenariats.",
+      "20 ans, étudiant, en stage dans un hôtel boutique 5★ en Méditerranée.",
+      "Je construis et je vends un agent concierge IA — testé sur de vrais clients, pas en labo.",
+      "Basé en Europe, ouvert aux missions freelance et aux partenariats.",
     ],
     links: {
       github: "GitHub",
@@ -83,7 +83,7 @@ const fr = {
     },
   },
   pricing: {
-    title: "3 formules. Pas de surprise.",
+    title: "Trois formules. Pas de ligne cachée.",
     perMonth: " / mois",
     plans: [
       {
@@ -116,7 +116,7 @@ const fr = {
         ],
       },
     ],
-    contactTitle: "Parlons de votre réception.",
+    contactTitle: "On parle de votre réception ?",
     form: {
       name: "Votre nom",
       email: "Votre email",
@@ -143,6 +143,7 @@ const fr = {
     bookDemo: "Réserver une démo",
   },
   footer: "© 2026 Enzo Cosnard — Fait avec Next.js & Three.js",
+  footerVersion: "v3.2 — fait main, avec beaucoup de ☕",
 };
 
 // Le type de référence : l'anglais DOIT avoir exactement cette forme.
@@ -153,14 +154,14 @@ const en: Translation = {
   meta: {
     title: "Enzo Cosnard — AI Concierge Agent for boutique hotels",
     description:
-      "The AI agent that answers your front desk emails 24/7, in all major languages, with the voice of your house. Already live at a 5★ boutique hotel.",
+      "I built an AI agent that answers your front desk emails while you sleep — in the guest's language, with the voice of your house. Tested in real conditions at a 5★ boutique hotel.",
   },
   hero: {
     eyebrow: "Enzo Cosnard — AI concierge agent",
     titleStart: "AI concierge for ",
     titleAccent: "boutique hotels",
     subtitle:
-      "The agent that answers your emails 24/7, in all major languages, with the voice of your house.",
+      "Your guests get a reply before they finish their coffee. Even at 3am. In their own language.",
     ctaPrimary: "See the demo",
     ctaSecondary: "Contact",
   },
@@ -168,21 +169,21 @@ const en: Translation = {
     titleStart: "One more team member. ",
     titleAccent: "Without the salary.",
     bullets: [
-      "Reads every incoming email in < 2 seconds",
-      "Drafts a written reply, ready to send",
-      "Learns the tone of your front desk week after week",
+      "An email lands at 3am? The reply is ready by 3:01.",
+      "It drafts, you proofread, you click. Sent.",
+      "It learns the voice of your house week after week — and it never yawns.",
     ],
   },
   howItWorks: {
-    title: "3 steps",
+    title: "Three steps. Not one more.",
     steps: [
       {
         title: "Connect",
-        text: "We plug the agent into your mailbox (Outlook, Gmail) within 24 hours.",
+        text: "I plug the agent into your mailbox — Outlook or Gmail — in 10 minutes. Nothing to install.",
       },
       {
         title: "Listen",
-        text: "The agent reads your emails and sorts them: booking, complaint, question, spam.",
+        text: "It reads everything that comes in and sorts it: booking, complaint, question, spam.",
       },
       {
         title: "Reply",
@@ -219,8 +220,8 @@ const en: Translation = {
     name: "Enzo Cosnard",
     photoAlt: "Enzo Cosnard",
     lines: [
-      "20 years old, student, currently interning at a 5★ boutique hotel in the Mediterranean.",
-      "Builds and sells an AI concierge agent for boutique hotels.",
+      "20 years old, student, interning at a 5★ boutique hotel in the Mediterranean.",
+      "I build and sell an AI concierge agent — tested on real guests, not in a lab.",
       "Based in Europe, open to freelance work and partnerships.",
     ],
     links: {
@@ -230,7 +231,7 @@ const en: Translation = {
     },
   },
   pricing: {
-    title: "3 plans. No surprise.",
+    title: "Three plans. No hidden line.",
     perMonth: " / month",
     plans: [
       {
@@ -263,7 +264,7 @@ const en: Translation = {
         ],
       },
     ],
-    contactTitle: "Let's talk about your front desk.",
+    contactTitle: "Shall we talk about your front desk?",
     form: {
       name: "Your name",
       email: "Your email",
@@ -288,6 +289,7 @@ const en: Translation = {
     bookDemo: "Book a demo",
   },
   footer: "© 2026 Enzo Cosnard — Built with Next.js & Three.js",
+  footerVersion: "v3.2 — handmade, with plenty of ☕",
 };
 
 export const translations: Record<Locale, Translation> = { fr, en };

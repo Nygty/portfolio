@@ -36,7 +36,7 @@ export default function About({ t }: { t: Translation }) {
         </Reveal>
 
         <Reveal delay={0.15}>
-          <h2 className="mt-10 font-heading text-4xl font-bold tracking-tight sm:text-5xl">
+          <h2 className="mt-10 font-serif text-4xl font-semibold tracking-tight sm:text-5xl">
             {t.about.name}
           </h2>
           <div className="mt-6 space-y-2 text-lg text-muted">

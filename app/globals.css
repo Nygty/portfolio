@@ -9,9 +9,17 @@
   --color-accent-hot: #7c5cff;
   --color-text: #e6ecf5;
   --color-muted: #7a869a;
+}
 
+/* Fonts : @theme INLINE obligatoire — les valeurs référencent les variables
+   next/font (--font-inter…) définies sur <body>, invisibles depuis :root.
+   "inline" copie la valeur dans chaque utilitaire, où le var() se résout. */
+@theme inline {
   --font-heading: var(--font-space-grotesk), sans-serif;
   --font-body: var(--font-inter), sans-serif;
+  /* Font display des gros titres (Fraunces). Nommée --font-serif car
+     "font-display" est un nom réservé (descripteur @font-face). */
+  --font-serif: var(--font-fraunces), Georgia, serif;
 }
 
 /* Le smooth scroll est géré par Lenis (components/SmoothScroll.tsx) —
@@ -20,7 +28,9 @@
 body {
   background: var(--color-bg);
   color: var(--color-text);
-  font-family: var(--font-body);
+  /* var(--font-inter) directement : --font-body n'existe pas en tant que
+     variable CSS (@theme inline n'émet pas de :root). */
+  font-family: var(--font-inter), sans-serif;
   overflow-x: hidden;
 }
 
