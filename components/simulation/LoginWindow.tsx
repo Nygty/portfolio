@@ -24,7 +24,7 @@ export default function LoginWindow({ p }: { p: number }) {
   );
   const typingEmail = p >= 0.12 && p < 0.54;
   const typingPassword = p >= 0.54 && p < 0.78;
-  const hovered = p > 0.8;
+  const hovered = p > 0.87; // le curseur arrive sur le bouton à ~0.88
   const pressed = p > 0.9;
 
   const fieldClasses =
@@ -62,6 +62,7 @@ export default function LoginWindow({ p }: { p: number }) {
       </div>
 
       <button
+        id="sim-signin-button"
         type="button"
         tabIndex={-1}
         className={`mt-6 h-10 w-full rounded-md text-sm font-semibold text-white transition-colors duration-200 ${

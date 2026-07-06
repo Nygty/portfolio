@@ -2,40 +2,47 @@
 
 import { useLayoutEffect, useState, type RefObject } from "react";
 
-// Curseur souris SVG blanc qui glisse tout seul vers le bouton "Send"
+// Curseur souris SVG blanc qui glisse tout seul vers un élément cible
 // puis clique (compression + ondulation). Il mesure la vraie position
-// du bouton dans la fenêtre au montage — pas de coordonnées en dur.
+// de la cible dans le conteneur au montage — pas de coordonnées en dur.
 // moveP : trajet 0→1. clickP : animation de clic 0→1.
+// startX/startY : point de départ, en fraction du conteneur.
 
 const easeInOut = (t: number) =>
   t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
 
 type Path = { sx: number; sy: number; tx: number; ty: number };
 
-export default function SendCursor({
+export default function AutoCursor({
   moveP,
   clickP,
   containerRef,
+  targetId,
+  startX = 0.42,
+  startY = 0.48,
 }: {
   moveP: number;
   clickP: number;
   containerRef: RefObject<HTMLDivElement | null>;
+  targetId: string;
+  startX?: number;
+  startY?: number;
 }) {
   const [path, setPath] = useState<Path | null>(null);
 
   useLayoutEffect(() => {
     const container = containerRef.current;
-    const button = document.getElementById("sim-send-button");
-    if (!container || !button) return;
+    const target = document.getElementById(targetId);
+    if (!container || !target) return;
     const c = container.getBoundingClientRect();
-    const b = button.getBoundingClientRect();
+    const b = target.getBoundingClientRect();
     setPath({
-      sx: c.width * 0.42,
-      sy: c.height * 0.48,
+      sx: c.width * startX,
+      sy: c.height * startY,
       tx: b.left - c.left + b.width / 2,
       ty: b.top - c.top + b.height / 2,
     });
-  }, [containerRef]);
+  }, [containerRef, targetId, startX, startY]);
 
   if (!path) return null;
 

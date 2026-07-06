@@ -5,7 +5,7 @@ import LoginWindow from "./LoginWindow";
 import Inbox from "./Inbox";
 import EmailDetail from "./EmailDetail";
 import AIPanel from "./AIPanel";
-import SendCursor from "./SendCursor";
+import AutoCursor from "./AutoCursor";
 import { playDing, playSwoosh } from "@/lib/sound";
 import { useScrollState } from "@/lib/use-scroll-state";
 import { useIsMobile, usePrefersReducedMotion } from "@/lib/use-media";
@@ -34,6 +34,7 @@ export default function OutlookScene() {
   const isMobile = useIsMobile();
   const reducedMotion = usePrefersReducedMotion();
   const windowRef = useRef<HTMLDivElement>(null);
+  const loginRef = useRef<HTMLDivElement>(null);
 
   // Sons : joués une fois au franchissement (en descendant uniquement)
   const prevP = useRef(0);
@@ -56,6 +57,14 @@ export default function OutlookScene() {
   const arriveP = seg(p, 0.607, 0.627); // l'email de Sarah glisse
   const openP = seg(p, 0.632, 0.648); // clic simulé sur la ligne
   const detailP = seg(p, 0.644, 0.664); // vue détaillée en fondu
+
+  // Curseur du login : glisse vers "Sign in" après la saisie, puis clique
+  const loginCurMoveP = seg(loginP, 0.72, 0.88);
+  const loginCurClickP = seg(loginP, 0.9, 0.98);
+  // Curseur de l'inbox : glisse vers l'email de Sarah, clique en même temps
+  // que la ligne se surligne (openP). Démarre à 0.617 : la ligne a presque
+  // fini de glisser, la mesure de sa position est fiable.
+  const openCurMoveP = seg(p, 0.617, 0.634);
 
   // Chorégraphie de la phase "ai" (65 → 80%)
   const aiSlideP = seg(p, 0.652, 0.672); // le panneau IA s'ouvre
@@ -86,8 +95,18 @@ export default function OutlookScene() {
       {/* Le "bureau" : fenêtre d'app centrée */}
       <div className="absolute inset-0 flex items-center justify-center p-6">
         {showLogin ? (
-          <div style={{ opacity: loginFade }}>
+          <div ref={loginRef} className="relative" style={{ opacity: loginFade }}>
             <LoginWindow p={loginP} />
+            {loginCurMoveP > 0 && (
+              <AutoCursor
+                moveP={loginCurMoveP}
+                clickP={loginCurClickP}
+                containerRef={loginRef}
+                targetId="sim-signin-button"
+                startX={0.78}
+                startY={0.32}
+              />
+            )}
           </div>
         ) : (
           <div
@@ -166,12 +185,25 @@ export default function OutlookScene() {
               )}
             </div>
 
+            {/* Curseur d'ouverture : clique sur l'email qui vient d'arriver */}
+            {openCurMoveP > 0 && detailP < 0.5 && (
+              <AutoCursor
+                moveP={openCurMoveP}
+                clickP={openP}
+                containerRef={windowRef}
+                targetId="sim-email-sarah"
+                startX={0.5}
+                startY={0.55}
+              />
+            )}
+
             {/* Le curseur autonome, par-dessus tout le contenu de la fenêtre */}
             {moveP > 0 && sentP < 0.4 && (
-              <SendCursor
+              <AutoCursor
                 moveP={moveP}
                 clickP={clickP}
                 containerRef={windowRef}
+                targetId="sim-send-button"
               />
             )}
           </div>

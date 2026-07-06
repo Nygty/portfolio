@@ -53,6 +53,7 @@ export default function Inbox({
         {/* L'email de Sarah glisse depuis le haut */}
         {arriveP > 0 && (
           <div
+            id={read ? undefined : "sim-email-sarah"}
             className={`flex items-center gap-3 border-b border-white/5 px-5 py-3.5 ${
               highlighted ? "bg-[#243043]" : "bg-[#1d2330]"
             }`}
