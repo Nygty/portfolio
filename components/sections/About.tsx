@@ -30,7 +30,7 @@ export default function About({ t }: { t: Translation }) {
               alt={t.about.photoAlt}
               width={224}
               height={224}
-              className="h-40 w-40 rounded-full border-2 border-accent/30 object-cover object-[center_30%] shadow-[0_0_60px_rgba(74,158,255,0.25)] sm:h-56 sm:w-56"
+              className="h-40 w-40 rounded-full border-2 border-accent/30 object-cover object-[center_40%] shadow-[0_0_60px_rgba(74,158,255,0.25)] sm:h-56 sm:w-56"
             />
           </motion.div>
         </Reveal>
