@@ -56,8 +56,12 @@ function CameraRig({ frozen }: { frozen: boolean }) {
 // (pour l'easter egg HTML).
 function ScreenProbe() {
   const world = useRef(new THREE.Vector3());
+  const frame = useRef(0);
 
   useFrame(({ camera, size }) => {
+    // sonde pour l'easter egg : 1 frame sur 2 suffit
+    frame.current = (frame.current + 1) % 2;
+    if (frame.current !== 0) return;
     world.current.set(0, -1.08, -4.6);
     world.current.project(camera);
     const p = Math.min(1, Math.max(0, window.scrollY / cinematicLength()));
@@ -104,16 +108,21 @@ export default function Scene() {
 
   return (
     <div
-      className={`fixed inset-0 -z-10 ${
-        isMobile ? "opacity-75 blur-[2px]" : ""
-      }`}
+      className={`fixed inset-0 -z-10 ${isMobile ? "opacity-70" : ""}`}
       aria-hidden
     >
+      {/* antialias uniquement sur mobile : sur desktop l'EffectComposer rend
+          dans ses propres buffers, le MSAA du canvas ne sert jamais.
+          Pas de blur CSS plein écran sur mobile (recomposition GPU par frame). */}
       <Canvas
         camera={{ position: [0, -1.3, 10.5], fov: 45 }}
         dpr={isMobile ? [1, 1.25] : [1, 1.5]}
         frameloop={reducedMotion ? "demand" : "always"}
-        gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+        gl={{
+          antialias: isMobile,
+          alpha: true,
+          powerPreference: "high-performance",
+        }}
       >
         <CameraRig frozen={reducedMotion} />
         {!isMobile && <ScreenProbe />}

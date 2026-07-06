@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { memo, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
 
@@ -53,6 +53,7 @@ function BrainMesh({ intensity }: { intensity: number }) {
   const group = useRef<THREE.Group>(null);
   const linkGeometry = useRef<THREE.BufferGeometry>(null);
   const color = useRef(new THREE.Color());
+  const frame = useRef(0);
 
   const data = useMemo(() => {
     const pts: THREE.Vector3[] = [];
@@ -100,7 +101,10 @@ function BrainMesh({ intensity }: { intensity: number }) {
     }
 
     // impulsions : chaque connexion flashe selon sa phase, d'autant plus
-    // vite que l'agent réfléchit fort
+    // vite que l'agent réfléchit fort. Les sinus sont lents : réécrire
+    // les 260 couleurs une frame sur deux suffit largement.
+    frame.current = (frame.current + 1) % 2;
+    if (frame.current !== 0) return;
     const geo = linkGeometry.current;
     if (!geo) return;
     const attr = geo.attributes.color as THREE.BufferAttribute;
@@ -155,11 +159,16 @@ function BrainMesh({ intensity }: { intensity: number }) {
   );
 }
 
-export default function Brain({ intensity = 0.5 }: { intensity?: number }) {
+// memo : le parent (AIPanel) re-rend à chaque frame de scroll pendant le
+// typewriter — sans memo, ce 2e canvas WebGL serait réconcilié à chaque
+// frame. intensity ne prend que deux valeurs, le memo coupe tout.
+export default memo(Brain);
+
+function Brain({ intensity = 0.5 }: { intensity?: number }) {
   return (
     <Canvas
       camera={{ position: [0, 0.25, 2.9], fov: 42 }}
-      dpr={[1, 1.5]}
+      dpr={[1, 1.25]}
       gl={{ alpha: true, antialias: true }}
     >
       <BrainMesh intensity={intensity} />

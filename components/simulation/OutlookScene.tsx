@@ -18,9 +18,12 @@ import { useIsMobile, usePrefersReducedMotion } from "@/lib/use-media";
 // Desktop uniquement — les fallbacks mobile/reduced-motion arrivent à l'étape 8.
 
 const clamp = (v: number) => Math.min(1, Math.max(0, v));
-/** Progression 0→1 entre deux bornes de la cinématique. */
+/** Progression 0→1 entre deux bornes de la cinématique, quantifiée au
+ * 1/500 : Lenis produit des deltas de scroll minuscules à chaque frame —
+ * sans quantification, les enfants memo re-rendraient pour des variations
+ * invisibles (< 0.2%). Les bornes 0 et 1 restent atteintes exactement. */
 const seg = (p: number, from: number, to: number) =>
-  clamp((p - from) / (to - from));
+  Math.round(clamp((p - from) / (to - from)) * 500) / 500;
 
 function overlayOpacity(p: number): number {
   if (p < 0.38 || p > 0.97) return 0;

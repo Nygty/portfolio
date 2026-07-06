@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import Brain from "../three/Brain";
 
 // Panneau latéral de l'agent (façon Copilot) : le cerveau neuronal
@@ -16,7 +17,10 @@ Would you like me to hold the reservation for you?
 Warm regards,
 The Reception Team`;
 
-export default function AIPanel({
+// memo : ne re-rend que quand une progression change réellement
+export default memo(AIPanel);
+
+function AIPanel({
   slideP,
   thinkP,
   typeP,

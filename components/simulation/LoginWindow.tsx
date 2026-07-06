@@ -1,5 +1,7 @@
 "use client";
 
+import { memo } from "react";
+
 // Fenêtre de connexion de l'app "Mail" (neutre, aucune marque).
 // p : progression 0→1 de la séquence, pilotée par le scroll.
 // Jalons : apparition → email tapé → mot de passe → clic "Sign in".
@@ -16,7 +18,11 @@ function Caret({ active }: { active: boolean }) {
   );
 }
 
-export default function LoginWindow({ p }: { p: number }) {
+// memo : OutlookScene re-rend à chaque frame de scroll ; on ne re-rend la
+// fenêtre que si sa progression a réellement changé (p est clampé 0/1 hors phase).
+export default memo(LoginWindow);
+
+function LoginWindow({ p }: { p: number }) {
   const appear = clamp(p / 0.08);
   const emailChars = Math.round(clamp((p - 0.12) / 0.36) * EMAIL.length);
   const passwordChars = Math.round(

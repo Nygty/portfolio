@@ -16,6 +16,7 @@ import { useIsMobile } from "@/lib/use-media";
 function FadingFacade() {
   const group = useRef<THREE.Group>(null);
   const applied = useRef(-1);
+  const materials = useRef<THREE.Material[] | null>(null);
   const isMobile = useIsMobile();
 
   useFrame(() => {
@@ -23,14 +24,20 @@ function FadingFacade() {
     if (!group.current || Math.abs(f - applied.current) < 0.001) return;
     applied.current = f;
     group.current.visible = f > 0.001;
-    group.current.traverse((obj) => {
-      const mat = (obj as THREE.Mesh).material as THREE.Material | undefined;
-      if (!mat || !("opacity" in mat) || mat.userData.skipFade) return;
-      if (mat.userData.baseOpacity === undefined) {
+    // la liste des matériaux à fader est stable : on ne traverse qu'une fois
+    if (!materials.current) {
+      const list: THREE.Material[] = [];
+      group.current.traverse((obj) => {
+        const mat = (obj as THREE.Mesh).material as THREE.Material | undefined;
+        if (!mat || !("opacity" in mat) || mat.userData.skipFade) return;
         mat.userData.baseOpacity = mat.opacity;
-      }
+        list.push(mat);
+      });
+      materials.current = list;
+    }
+    for (const mat of materials.current) {
       mat.opacity = (mat.userData.baseOpacity as number) * f;
-    });
+    }
   });
 
   return (

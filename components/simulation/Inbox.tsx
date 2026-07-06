@@ -1,5 +1,7 @@
 "use client";
 
+import { memo } from "react";
+
 // Boîte de réception : quelques emails déjà lus, puis celui de Sarah
 // qui glisse depuis le haut (non lu : gras + point bleu) et s'ouvre.
 // arriveP : 0→1 arrivée de l'email. openP : 0→1 clic simulé sur la ligne.
@@ -27,7 +29,10 @@ const READ_EMAILS = [
 
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
-export default function Inbox({
+// memo : ne re-rend que si arriveP/openP changent (clampés hors phase)
+export default memo(Inbox);
+
+function Inbox({
   arriveP,
   openP,
   read = false,

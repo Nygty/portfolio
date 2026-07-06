@@ -1,9 +1,12 @@
 "use client";
 
-// L'email de Sarah, ouvert. p : fondu d'apparition 0→1.
-// Le panneau IA (blob + réponse) viendra se greffer à droite à l'étape 5.
+import { memo } from "react";
 
-export default function EmailDetail({ p }: { p: number }) {
+// L'email de Sarah, ouvert. p : fondu d'apparition 0→1.
+// memo : p reste clampé à 1 pendant toute la phase IA — pas de re-render.
+export default memo(EmailDetail);
+
+function EmailDetail({ p }: { p: number }) {
   return (
     <div className="flex h-full flex-col" style={{ opacity: p }}>
       <div className="border-b border-white/10 px-6 py-4">
